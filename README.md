@@ -1,6 +1,6 @@
-# DealerPulse — Multi-Agent Dealer Operations Intelligence
+# DealerPulse - Multi-Agent Dealer Operations Intelligence
 
-> A multi-agent AI system that connects the four disconnected pillars of dealership operations — consumer engagement, sales execution, service diagnostics, and inventory management — using Elasticsearch as the unified intelligence layer.
+> A multi-agent AI system that connects the four disconnected pillars of dealership operations - consumer engagement, sales execution, service diagnostics, and inventory management - using Elasticsearch as the unified intelligence layer.
 
 ![Architecture](docs/architecture.png)
 
@@ -202,7 +202,7 @@ dealerpulse-elasticsearch-agents/
 │   ├── test_tools.py
 │   └── test_scenarios.py
 │
-└── LICENSE                     # Apache 2.0
+└── LICENSE                     # MIT
 ```
 
 ## Business Value
@@ -232,4 +232,4 @@ dealerpulse-elasticsearch-agents/
 
 ## License
 
-Apache 2.0 — See [LICENSE](LICENSE)
+MIT — See [LICENSE](LICENSE)

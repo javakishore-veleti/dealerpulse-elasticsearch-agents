@@ -1,0 +1,45 @@
+# ═══════════════════════════════════════════════
+# Weaviate — Vector Database
+#
+# WHY: GraphQL-native vector DB with built-in vectorization modules.
+# Can auto-generate embeddings using OpenAI/Cohere/HuggingFace
+# so you don't need a separate embedding pipeline.
+#
+# GOOD FOR: When you want the DB to handle embedding generation,
+# multi-modal search (text + images), and graph-like queries.
+#
+# PORTS:
+#   8081 → REST + GraphQL API
+# ═══════════════════════════════════════════════
+
+services:
+  weaviate:
+    image: semitechnologies/weaviate:1.28.4
+    container_name: dealerpulse-weaviate
+    environment:
+      # Where to store data inside the container
+      PERSISTENCE_DATA_PATH: /var/lib/weaviate
+      # Auth disabled for local dev
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: "true"
+      # Default vectorizer — none (you provide your own embeddings)
+      # To use OpenAI auto-vectorization, add: text2vec-openai
+      DEFAULT_VECTORIZER_MODULE: none
+      CLUSTER_HOSTNAME: node1
+    ports:
+      - "${WEAVIATE_PORT:-8081}:8080"
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/v1/.well-known/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - dealerpulse-net
+
+volumes:
+  weaviate_data:
+
+networks:
+  dealerpulse-net:
+    external: true

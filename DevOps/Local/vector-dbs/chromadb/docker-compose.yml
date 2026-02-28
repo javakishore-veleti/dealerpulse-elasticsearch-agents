@@ -1,0 +1,45 @@
+# ═══════════════════════════════════════════════
+# ChromaDB — Vector Database
+#
+# WHY: Simplest vector DB to use. Python-native, one container,
+# zero config. Great for prototyping and small-to-medium datasets.
+# LangChain's default vector store.
+#
+# TRADE-OFFS vs others:
+#   ✓ Easiest setup (1 container, no dependencies)
+#   ✓ Native Python client (pip install chromadb)
+#   ✗ Not designed for billions of vectors (use Milvus for that)
+#   ✗ No built-in replication or sharding
+#
+# PORTS:
+#   8082 → REST API
+# ═══════════════════════════════════════════════
+
+services:
+  chromadb:
+    image: chromadb/chroma:0.6.3
+    container_name: dealerpulse-chromadb
+    environment:
+      # Persist data to volume (not in-memory)
+      IS_PERSISTENT: "TRUE"
+      PERSIST_DIRECTORY: /chroma/chroma
+      # Auth disabled for local dev
+      CHROMA_SERVER_AUTHN_PROVIDER: ""
+    ports:
+      - "${CHROMADB_PORT:-8082}:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8000/api/v1/heartbeat || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - dealerpulse-net
+
+volumes:
+  chroma_data:
+
+networks:
+  dealerpulse-net:
+    external: true

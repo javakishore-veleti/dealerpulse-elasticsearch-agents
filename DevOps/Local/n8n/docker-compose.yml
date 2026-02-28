@@ -1,0 +1,49 @@
+# ═══════════════════════════════════════════════
+# n8n — Workflow Automation Engine
+#
+# WHY: Visual workflow builder for connecting services without code.
+# Think "Zapier you self-host." Build dealer workflows like:
+#   - New lead arrives → enrich with ES data → post to Slack
+#   - Inventory hits 60 days → query pricing → alert manager via email
+#   - Service RO completed → update Kafka topic → trigger invoice
+#
+# n8n connects to Postgres for its own workflow storage.
+# It can also connect to every other service in this stack.
+#
+# PORTS:
+#   5678 → n8n UI (http://localhost:5678)
+# ═══════════════════════════════════════════════
+
+services:
+  n8n:
+    image: n8nio/n8n:1.77.0
+    container_name: dealerpulse-n8n
+    environment:
+      # Use Postgres (from our postgres service) to store workflows
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_PORT: 5432
+      DB_POSTGRESDB_DATABASE: ${POSTGRES_DB:-dealerpulse}
+      DB_POSTGRESDB_USER: ${POSTGRES_USER:-dealerpulse}
+      DB_POSTGRESDB_PASSWORD: ${POSTGRES_PASSWORD:-dealerpulse_dev}
+      # Webhook URL for external triggers
+      WEBHOOK_URL: http://localhost:${N8N_PORT:-5678}
+      # Timezone
+      GENERIC_TIMEZONE: America/New_York
+      # Allow running custom code in workflows
+      N8N_RUNNERS_ENABLED: "true"
+    ports:
+      - "${N8N_PORT:-5678}:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    # NOTE: n8n expects Postgres to be running already.
+    # Start postgres first: ./docker-all-up.sh postgres n8n
+    networks:
+      - dealerpulse-net
+
+volumes:
+  n8n_data:
+
+networks:
+  dealerpulse-net:
+    external: true

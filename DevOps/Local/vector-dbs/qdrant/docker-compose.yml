@@ -1,0 +1,37 @@
+# ═══════════════════════════════════════════════
+# Qdrant — Vector Database
+#
+# WHY: Fastest pure vector DB. Written in Rust, so low memory footprint
+# and high throughput. Great REST + gRPC APIs. Built-in web dashboard.
+#
+# GOOD FOR: Production vector search where performance matters.
+# Has filtering, payload storage, and multi-tenancy built in.
+#
+# PORTS:
+#   6333 → REST API + Dashboard (http://localhost:6333/dashboard)
+#   6334 → gRPC API (faster, for production use)
+# ═══════════════════════════════════════════════
+
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.13.2
+    container_name: dealerpulse-qdrant
+    ports:
+      - "${QDRANT_PORT:-6333}:6333"
+      - "${QDRANT_GRPC_PORT:-6334}:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:6333/healthz || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - dealerpulse-net
+
+volumes:
+  qdrant_data:
+
+networks:
+  dealerpulse-net:
+    external: true

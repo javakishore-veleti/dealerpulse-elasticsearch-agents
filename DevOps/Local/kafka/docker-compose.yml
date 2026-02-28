@@ -1,0 +1,75 @@
+# ═══════════════════════════════════════════════
+# Kafka (KRaft mode) + Kafka UI
+#
+# WHY: Event streaming backbone. Dealer events (new lead, price change,
+# service RO opened) get published to topics, agents subscribe.
+#
+# KEY DECISIONS:
+#   - KRaft mode = NO Zookeeper. Kafka 3.7+ manages its own metadata.
+#     This is the modern approach — simpler, one less container.
+#   - Kafka UI (provectuslabs) = free, clean topic browser
+#   - Two listeners: one for internal (other containers), one for external (your laptop)
+#
+# PORTS:
+#   9092 → Kafka broker (producers/consumers connect here)
+#   8080 → Kafka UI (browse topics in browser)
+# ═══════════════════════════════════════════════
+
+services:
+  kafka:
+    image: apache/kafka:3.9.0
+    container_name: dealerpulse-kafka
+    environment:
+      # KRaft mode — Kafka manages its own cluster metadata (no Zookeeper)
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
+
+      # Two listeners:
+      #   PLAINTEXT = other Docker containers connect at kafka:29092
+      #   EXTERNAL  = your laptop connects at localhost:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,CONTROLLER://0.0.0.0:29093,EXTERNAL://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,EXTERNAL://localhost:${KAFKA_PORT:-9092}
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+
+      # Sensible defaults for local dev
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_LOG_RETENTION_HOURS: 168  # 7 days
+    ports:
+      - "${KAFKA_PORT:-9092}:9092"
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:29092 >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 10s
+      retries: 15
+    networks:
+      - dealerpulse-net
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: dealerpulse-kafka-ui
+    environment:
+      KAFKA_CLUSTERS_0_NAME: dealerpulse
+      # Connect to Kafka's internal listener (same Docker network)
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+    ports:
+      - "${KAFKA_UI_PORT:-8080}:8080"
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - dealerpulse-net
+
+volumes:
+  kafka_data:
+
+networks:
+  dealerpulse-net:
+    external: true

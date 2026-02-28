@@ -1,0 +1,84 @@
+# ═══════════════════════════════════════════════
+# Observability Stack
+#
+# THREE COMPONENTS:
+#
+# 1. OpenTelemetry Collector — receives traces/metrics/logs from your
+#    application code via OTLP protocol, then forwards to backends.
+#    Think of it as a "telemetry router."
+#
+# 2. Prometheus — time-series database that scrapes metrics from
+#    ES, Kafka, Postgres, etc. at regular intervals.
+#
+# 3. Grafana — dashboards. Connects to Prometheus as a datasource.
+#    Auto-provisioned so Prometheus is pre-configured on first start.
+#
+# DATA FLOW:
+#   Your App → (OTLP) → OTel Collector → Prometheus → Grafana
+#   ES/Kafka → (scrape) → Prometheus → Grafana
+#
+# PORTS:
+#   4317 → OTel Collector gRPC (apps send traces here)
+#   4318 → OTel Collector HTTP (alternative to gRPC)
+#   9090 → Prometheus UI
+#   3000 → Grafana UI (admin / admin)
+# ═══════════════════════════════════════════════
+
+services:
+  # ── OpenTelemetry Collector ──
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.118.0
+    container_name: dealerpulse-otel
+    command: ["--config=/etc/otel/config.yml"]
+    volumes:
+      - ./otel/config.yml:/etc/otel/config.yml:ro
+    ports:
+      - "${OTEL_COLLECTOR_PORT:-4317}:4317"      # gRPC
+      - "${OTEL_COLLECTOR_HTTP_PORT:-4318}:4318"  # HTTP
+    networks:
+      - dealerpulse-net
+
+  # ── Prometheus ──
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    container_name: dealerpulse-prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=7d"
+      - "--web.enable-lifecycle"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    networks:
+      - dealerpulse-net
+
+  # ── Grafana ──
+  grafana:
+    image: grafana/grafana:11.5.1
+    container_name: dealerpulse-grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
+      # Allow embedding in iframes (useful for n8n dashboards)
+      GF_SECURITY_ALLOW_EMBEDDING: "true"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      # Auto-provision Prometheus as datasource on first start
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - dealerpulse-net
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  dealerpulse-net:
+    external: true

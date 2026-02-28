@@ -1,0 +1,55 @@
+# ═══════════════════════════════════════════════
+# OpenTelemetry Collector Configuration
+#
+# PIPELINE: Your app sends telemetry → OTel Collector → backends
+#
+# Three signal types:
+#   Traces  = request-level spans (e.g., "agent took 2.3s to query ES")
+#   Metrics = counters/gauges (e.g., "47 queries per minute")
+#   Logs    = structured log lines
+#
+# This config:
+#   - Receives OTLP over gRPC (:4317) and HTTP (:4318)
+#   - Exports metrics to Prometheus (scraped by our Prometheus instance)
+#   - Exports traces to console (upgrade to Jaeger/Tempo for production)
+# ═══════════════════════════════════════════════
+
+receivers:
+  # Accept OTLP from any app instrumented with OpenTelemetry
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  # Batch telemetry to reduce network calls
+  batch:
+    timeout: 5s
+    send_batch_size: 1024
+
+exporters:
+  # Export metrics so Prometheus can scrape them
+  prometheus:
+    endpoint: 0.0.0.0:8889
+
+  # Print traces to console (for debugging)
+  # Replace with otlp/jaeger or otlp/tempo for production
+  debug:
+    verbosity: basic
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [prometheus]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug]

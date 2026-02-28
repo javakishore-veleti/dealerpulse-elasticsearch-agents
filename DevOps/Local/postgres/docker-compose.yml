@@ -1,0 +1,49 @@
+# ═══════════════════════════════════════════════
+# PostgreSQL 16 + pgVector
+#
+# WHY: Relational storage for dealer data + vector similarity search.
+# pgVector lets you store embeddings right alongside your relational data
+# instead of needing a separate vector DB for simple use cases.
+#
+# PORTS:
+#   5432 → PostgreSQL (standard Postgres port)
+#
+# KEY DECISIONS:
+#   - Using pgvector/pgvector:pg16 image (Postgres 16 + pgVector pre-installed)
+#   - init.sql enables the vector extension automatically on startup
+#   - Shared buffers tuned for local dev (256MB)
+# ═══════════════════════════════════════════════
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: dealerpulse-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-dealerpulse}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dealerpulse_dev}
+      POSTGRES_DB: ${POSTGRES_DB:-dealerpulse}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      # init.sql runs once on first startup (when volume is empty)
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: >
+      postgres
+        -c shared_buffers=256MB
+        -c max_connections=100
+        -c work_mem=16MB
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dealerpulse}"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+    networks:
+      - dealerpulse-net
+
+volumes:
+  pg_data:
+
+networks:
+  dealerpulse-net:
+    external: true
