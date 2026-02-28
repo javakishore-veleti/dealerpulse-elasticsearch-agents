@@ -30,7 +30,7 @@ import { Component } from '@angular/core';
       </a>
 
       <!-- Footer -->
-      <div class="mt-auto p-3 border-top" style="border-color: #334155 !important;">
+      <div class="mt-auto p-3 border-top">
         <small class="text-muted">DealerPulse v0.1.0</small>
       </div>
     </nav>

@@ -1,70 +1,95 @@
 // ═══════════════════════════════════════════════
-// DealerPulse Admin — Global Styles
+// DealerPulse Admin — Energetic Operations Console
 // ═══════════════════════════════════════════════
 
-// Brand colors — warm slate blue, professional but not dark
-$sidebar-bg: #2e3b52;
-$sidebar-hover: #3d4f6a;
-$sidebar-active: #4a90d9;
+// Brand colors — vibrant but professional
+$sidebar-bg: linear-gradient(180deg, #1e3a5f 0%, #0f2744 100%);
+$sidebar-hover: rgba(255,255,255,0.08);
+$sidebar-active: #38bdf8;
 $header-bg: #ffffff;
 $body-bg: #f0f4f8;
-$accent: #4a90d9;
+$accent: #3b82f6;
+$accent-secondary: #06b6d4;
+$success: #10b981;
+$warning: #f59e0b;
+$danger: #ef4444;
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: $body-bg;
 }
 
-// ── Sidebar ──
+// ── Sidebar — gradient with glow ──
+// ── Sidebar — clean white with vibrant accents ──
 .sidebar {
   width: 260px;
   min-height: 100vh;
-  background: $sidebar-bg;
-  color: #e2e8f0;
+  background: #ffffff;
+  color: #1e293b;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
   transition: width 0.3s;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.06);
+  border-right: 1px solid #e2e8f0;
 
   .sidebar-brand {
     padding: 20px 16px;
-    border-bottom: 1px solid #3d4f6a;
-    h5 { color: #7ab3e8; margin: 0; }
-    small { color: #94a3b8; }
+    border-bottom: 2px solid #eef2ff;
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    h5 {
+      color: #ffffff;
+      margin: 0;
+      font-weight: 800;
+      font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.3px;
+    }
+    small { color: rgba(255,255,255,0.8); font-size: 0.8rem; letter-spacing: 0.5px; }
   }
 
   .nav-link {
-    color: #94a3b8;
-    padding: 10px 16px;
+    color: #475569;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 0.9rem;
+    font-size: 1.05rem;
+    font-weight: 500;
     border-left: 3px solid transparent;
     transition: all 0.2s;
+    margin: 2px 8px;
+    border-radius: 8px;
+    border-left: none;
 
-    i { font-size: 1.1rem; width: 20px; text-align: center; }
+    i { font-size: 1.25rem; width: 20px; text-align: center; color: #94a3b8; }
 
     &:hover {
-      color: #e2e8f0;
-      background: $sidebar-hover;
+      color: #1e293b;
+      background: #f1f5f9;
+      i { color: #3b82f6; }
     }
 
     &.active {
-      color: #ffffff;
-      background: rgba($sidebar-active, 0.15);
-      border-left-color: $sidebar-active;
+      color: #3b82f6;
+      background: #eff6ff;
+      font-weight: 600;
+      i { color: #3b82f6; }
+      box-shadow: inset 0 0 0 1px rgba(59,130,246,0.15);
     }
   }
 
   .nav-section {
-    padding: 16px 16px 4px;
-    font-size: 0.7rem;
+    padding: 20px 16px 6px;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #7a8a9e;
+    letter-spacing: 1.5px;
+    color: #3b82f6;
+    font-weight: 700;
   }
 }
 
@@ -84,26 +109,106 @@ body {
   position: sticky;
   top: 0;
   z-index: 999;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.04);
 }
 
 .page-content {
   padding: 24px;
 }
 
-// ── Cards ──
+// ── KPI Cards — gradient backgrounds ──
 .stat-card {
   border: none;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-  transition: box-shadow 0.2s;
-  &:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  &:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+  }
 }
 
-// ── Agent response panel ──
+.stat-card-blue {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  .text-muted { color: rgba(255,255,255,0.7) !important; }
+  small { color: rgba(255,255,255,0.8) !important; }
+  i { color: rgba(255,255,255,0.3); }
+}
+
+.stat-card-cyan {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+  color: white;
+  .text-muted { color: rgba(255,255,255,0.7) !important; }
+  small { color: rgba(255,255,255,0.8) !important; }
+  i { color: rgba(255,255,255,0.3); }
+}
+
+.stat-card-emerald {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  .text-muted { color: rgba(255,255,255,0.7) !important; }
+  small { color: rgba(255,255,255,0.8) !important; }
+  i { color: rgba(255,255,255,0.3); }
+}
+
+.stat-card-amber {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  .text-muted { color: rgba(255,255,255,0.7) !important; }
+  small { color: rgba(255,255,255,0.8) !important; }
+  i { color: rgba(255,255,255,0.3); }
+}
+
+.stat-card-rose {
+  background: linear-gradient(135deg, #f43f5e, #e11d48);
+  color: white;
+  .text-muted { color: rgba(255,255,255,0.7) !important; }
+  small { color: rgba(255,255,255,0.8) !important; }
+  i { color: rgba(255,255,255,0.3); }
+}
+
+// ── Quick Action Buttons ──
+.quick-action-btn {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    border-color: $accent;
+    background: #eff6ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59,130,246,0.15);
+  }
+
+  &.action-warning:hover {
+    border-color: $warning;
+    background: #fffbeb;
+    box-shadow: 0 4px 12px rgba(245,158,11,0.15);
+  }
+
+  &.action-success:hover {
+    border-color: $success;
+    background: #ecfdf5;
+    box-shadow: 0 4px 12px rgba(16,185,129,0.15);
+  }
+}
+
+// ── Agent response panel — dark with glow ──
 .agent-response {
-  background: #2e3b52;
+  background: linear-gradient(135deg, #1e3a5f, #0f2744);
   color: #e2e8f0;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 20px;
   white-space: pre-wrap;
   font-family: 'SF Mono', 'Fira Code', monospace;
@@ -111,6 +216,64 @@ body {
   line-height: 1.6;
   max-height: 600px;
   overflow-y: auto;
+  box-shadow: 0 4px 24px rgba(15,39,68,0.2);
+  border-left: 4px solid #38bdf8;
+}
+
+// ── Scenario Cards ──
+.scenario-card {
+  background: white;
+  border-radius: 14px;
+  padding: 16px;
+  border: 2px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    border-color: #93c5fd;
+    box-shadow: 0 4px 16px rgba(59,130,246,0.12);
+    transform: translateY(-2px);
+  }
+
+  &.selected {
+    border-color: $accent;
+    background: #eff6ff;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+  }
+}
+
+// ── System Health Indicators ──
+.health-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+
+  &.healthy {
+    background: $success;
+    box-shadow: 0 0 8px rgba(16,185,129,0.5);
+    animation: pulse-green 2s infinite;
+  }
+
+  &.unhealthy {
+    background: $danger;
+    box-shadow: 0 0 8px rgba(239,68,68,0.5);
+    animation: pulse-red 1s infinite;
+  }
+
+  &.unknown {
+    background: #94a3b8;
+  }
+}
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 4px rgba(16,185,129,0.4); }
+  50% { box-shadow: 0 0 12px rgba(16,185,129,0.7); }
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 4px rgba(239,68,68,0.4); }
+  50% { box-shadow: 0 0 12px rgba(239,68,68,0.8); }
 }
 
 // ── Status badges ──
@@ -118,4 +281,81 @@ body {
   font-size: 0.75rem;
   padding: 4px 10px;
   border-radius: 20px;
+}
+
+// ── Data Table Enhancement ──
+.data-row {
+  transition: all 0.2s;
+  &:hover {
+    background: #f0f9ff;
+    transform: scale(1.005);
+  }
+}
+
+// ── Dashboard greeting ──
+.greeting-banner {
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  border-radius: 16px;
+  padding: 24px;
+  color: white;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 24px rgba(59,130,246,0.2);
+
+  h4 { font-weight: 700; margin-bottom: 4px; }
+  p { color: rgba(255,255,255,0.8); margin: 0; }
+}
+
+// ── Global Font Size Boost ──
+.page-content {
+  font-size: 1.1rem;
+
+  h5, h6 { font-size: 1.35rem; font-weight: 700; }
+
+  .form-label { font-size: 1.1rem; font-weight: 600; }
+
+  .form-control, .form-select {
+    font-size: 1.15rem;
+    padding: 14px 18px;
+  }
+
+  .btn {
+    font-size: 1.15rem;
+    padding: 14px 28px;
+  }
+
+  .btn-sm {
+    font-size: 1.05rem;
+    padding: 10px 18px;
+  }
+
+  .small, small { font-size: 1rem; }
+
+  .text-muted { font-size: 1.05rem; }
+
+  .fw-bold { font-size: 1.2rem; }
+
+  .fs-1 { font-size: 3rem !important; }
+  .fs-3 { font-size: 1.6rem !important; }
+  .fs-4 { font-size: 1.4rem !important; }
+}
+
+// Top header
+.top-header {
+  h5 { font-size: 1.5rem; font-weight: 700; }
+  .badge { font-size: 1rem; padding: 8px 16px; }
+}
+
+// ── Override Bootstrap .small on form labels ──
+.page-content .form-label.small,
+.page-content label.small,
+.page-content .card label,
+.page-content .card .form-label {
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+}
+
+.page-content .card input.form-control,
+.page-content .card select.form-select {
+  font-size: 1.15rem !important;
+  padding: 14px 18px !important;
 }
