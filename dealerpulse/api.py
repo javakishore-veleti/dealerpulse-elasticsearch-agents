@@ -9,8 +9,9 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-
+from dealerpulse_v2.api_v2 import router as v2_router
 app = FastAPI(title="DealerPulse", description="Multi-Agent Dealer Operations Intelligence")
+app.include_router(v2_router)
 
 app.add_middleware(
     CORSMiddleware,

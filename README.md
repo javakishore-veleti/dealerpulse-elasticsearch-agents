@@ -234,6 +234,11 @@ dealerpulse-elasticsearch-agents/
 
 MIT — See [LICENSE](LICENSE)
 
+#### Build a custom agent with the Elastic Agent Builder APIs
+
+https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/agent-builder-api-tutorial
+
+
 ```shell
 
 mkdir -p registry/tools
