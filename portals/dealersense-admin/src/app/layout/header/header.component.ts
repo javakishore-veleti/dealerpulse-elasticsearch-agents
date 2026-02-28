@@ -12,9 +12,9 @@ import { ApiService } from '../../services/api.service';
         <span class="badge" [ngClass]="esHealthy ? 'bg-success' : 'bg-danger'">
           <i class="bi bi-database"></i> ES {{ esHealthy ? 'Connected' : 'Down' }}
         </span>
-        <span class="badge bg-secondary">
-          <i class="bi bi-building"></i> Prestige Chevrolet
-        </span>
+      <span class="badge bg-secondary">
+        <i class="bi bi-building"></i> Demo Dealership
+      </span>
       </div>
     </div>
   `,

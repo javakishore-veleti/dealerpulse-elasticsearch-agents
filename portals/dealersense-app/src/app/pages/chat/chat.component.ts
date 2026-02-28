@@ -12,8 +12,8 @@ interface ChatMessage {
     <!-- Mini hero -->
     <div class="hero-sm">
       <div class="container d-flex align-items-center justify-content-between">
-        <h2><i class="bi bi-chat-dots-fill"></i> AI Shopping Assistant</h2>
-        <span class="badge bg-primary bg-opacity-25 text-light">Powered by DealerPulse</span>
+        <h2><i class="bi bi-search-heart"></i> Smart Search Assistant</h2>
+        <span class="badge bg-primary bg-opacity-25 text-light">Live Inventory · Instant Matching · Best Price</span>
       </div>
     </div>
 
@@ -56,7 +56,7 @@ export class ChatComponent implements AfterViewChecked {
   messages: ChatMessage[] = [
     {
       role: 'assistant',
-      content: 'Hi! I\'m your AI shopping assistant at Prestige Chevrolet. I can help you find vehicles, calculate pricing with incentives, estimate your trade-in value, and more.\n\nWhat are you looking for today?'
+      content: 'Hi! Welcome to MyNextAutoSearch. I can search our entire inventory in real time, find the best price with all available incentives, and estimate your trade-in value — all in seconds.\n\nWhat are you looking for today?'
     }
   ];
 

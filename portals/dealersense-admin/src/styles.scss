@@ -1,14 +1,14 @@
 // ═══════════════════════════════════════════════
-// DealerSense Admin — Global Styles
+// DealerPulse Admin — Global Styles
 // ═══════════════════════════════════════════════
 
-// Brand colors
-$sidebar-bg: #1e293b;
-$sidebar-hover: #334155;
-$sidebar-active: #2563eb;
+// Brand colors — warm slate blue, professional but not dark
+$sidebar-bg: #2e3b52;
+$sidebar-hover: #3d4f6a;
+$sidebar-active: #4a90d9;
 $header-bg: #ffffff;
-$body-bg: #f1f5f9;
-$accent: #2563eb;
+$body-bg: #f0f4f8;
+$accent: #4a90d9;
 
 body {
   margin: 0;
@@ -30,8 +30,8 @@ body {
 
   .sidebar-brand {
     padding: 20px 16px;
-    border-bottom: 1px solid #334155;
-    h5 { color: #60a5fa; margin: 0; }
+    border-bottom: 1px solid #3d4f6a;
+    h5 { color: #7ab3e8; margin: 0; }
     small { color: #94a3b8; }
   }
 
@@ -64,7 +64,7 @@ body {
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #64748b;
+    color: #7a8a9e;
   }
 }
 
@@ -101,7 +101,7 @@ body {
 
 // ── Agent response panel ──
 .agent-response {
-  background: $sidebar-bg;
+  background: #2e3b52;
   color: #e2e8f0;
   border-radius: 8px;
   padding: 20px;

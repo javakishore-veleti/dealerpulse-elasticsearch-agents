@@ -7,10 +7,11 @@ import { Component } from '@angular/core';
     <div class="hero">
       <div class="container">
         <h1>Find Your Perfect Vehicle</h1>
-        <p>AI-powered shopping experience. Tell us what you want, we'll find the match.</p>
+        <!-- NEW -->
+        <p>Tell us what you want in plain English. Our AI searches every vehicle, every incentive, in real time.</p>
         <div class="d-flex justify-content-center gap-3">
           <a routerLink="/chat" class="btn btn-primary btn-lg rounded-pill px-4">
-            <i class="bi bi-chat-dots-fill"></i> Talk to Our AI Assistant
+            <i class="bi bi-search-heart"></i> Help Me Find My Next Vehicle
           </a>
           <a routerLink="/search" class="btn btn-outline-light btn-lg rounded-pill px-4">
             <i class="bi bi-search"></i> Browse Vehicles
@@ -37,7 +38,7 @@ import { Component } from '@angular/core';
     <!-- How It Works -->
     <div class="section" style="background: white;">
       <div class="container text-center">
-        <h3 class="section-title">How DealerPulse AI Works</h3>
+        <h3 class="section-title">How Smart Search Works For You</h3>
         <div class="row g-4">
           <div class="col-md-3" *ngFor="let step of steps; let i = index">
             <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3"
@@ -52,7 +53,7 @@ import { Component } from '@angular/core';
     <!-- Featured CTA -->
     <div class="section">
       <div class="container">
-        <div class="p-5 rounded-4 text-center text-white" style="background: linear-gradient(135deg, #2563eb, #06b6d4);">
+        <div class="p-5 rounded-4 text-center text-white" style="background: linear-gradient(135deg, #6366f1, #06b6d4, #10b981);">
           <h3 class="fw-bold mb-2">Ready to find your next vehicle?</h3>
           <p class="mb-3 opacity-75">Our AI knows every vehicle on our lot, every incentive available, and can calculate your exact price in seconds.</p>
           <a routerLink="/chat" class="btn btn-light btn-lg rounded-pill px-5 fw-bold">
@@ -65,7 +66,8 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   quickActions = [
-    { title: 'AI Assistant', description: 'Tell us what you want in plain English. Our AI finds the best match.', icon: 'bi-robot', route: '/chat' },
+    // NEW
+    { title: 'Smart Search', description: 'Tell us what you want in plain English. We search and match instantly.', icon: 'bi-search-heart', route: '/chat' },
     { title: 'Your Price', description: 'See the real price with incentives, trade-in, and financing.', icon: 'bi-calculator', route: '/price-calculator' },
     { title: 'Trade-In Value', description: 'Get an instant estimate with recall check included.', icon: 'bi-arrow-left-right', route: '/trade-in' },
   ];

@@ -6,7 +6,8 @@ import { CustomerApiService } from '../../services/customer-api.service';
   template: `
     <div class="hero-sm">
       <div class="container">
-        <h2><i class="bi bi-calculator"></i> Your Price Calculator</h2>
+        <!-- NEW -->
+        <h2><i class="bi bi-calculator"></i> Your Price — Searched & Calculated Live</h2>
       </div>
     </div>
 

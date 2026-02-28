@@ -8,9 +8,9 @@ import { Component } from '@angular/core';
         <div class="row">
           <div class="col-md-4 mb-3">
             <div class="footer-brand mb-2">
-              <i class="bi bi-car-front"></i> Prestige Chevrolet
+                <i class="bi bi-search-heart"></i> MyNextAutoSearch
             </div>
-            <p class="small">AI-powered car shopping experience.<br>Charlotte, NC</p>
+            <p class="small">AI-powered vehicle shopping experience.</p>
           </div>
           <div class="col-md-2 mb-3">
             <h6 class="text-white mb-2">Shop</h6>
@@ -26,14 +26,14 @@ import { Component } from '@angular/core';
           </div>
           <div class="col-md-4 mb-3">
             <h6 class="text-white mb-2">Contact</h6>
-            <p class="small mb-1"><i class="bi bi-geo-alt"></i> 1234 Independence Blvd, Charlotte NC</p>
-            <p class="small mb-1"><i class="bi bi-telephone"></i> (704) 555-0100</p>
+            <p class="small mb-1"><i class="bi bi-geo-alt"></i> Demo Dealership Location</p>
+            <p class="small mb-1"><i class="bi bi-telephone"></i> (555) 000-0000</p>
             <p class="small"><i class="bi bi-clock"></i> Mon-Sat 9AM-8PM</p>
           </div>
         </div>
         <hr style="border-color: #334155;">
         <p class="small text-center mb-0">
-          Powered by DealerPulse AI · &copy; 2026 Prestige Chevrolet
+          Powered by MyNextAutoSearch AI · &copy; 2026
         </p>
       </div>
     </footer>

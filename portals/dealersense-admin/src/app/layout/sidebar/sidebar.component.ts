@@ -6,8 +6,8 @@ import { Component } from '@angular/core';
     <nav class="sidebar d-flex flex-column">
       <!-- Brand -->
       <div class="sidebar-brand">
-        <h5><i class="bi bi-speedometer2"></i> DealerSense</h5>
-        <small>Admin Console</small>
+        <h5><i class="bi bi-speedometer2"></i> DealerPulse</h5>
+        <small>Operations Console</small>
       </div>
 
       <!-- Main nav -->

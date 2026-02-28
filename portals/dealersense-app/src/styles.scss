@@ -1,15 +1,16 @@
 // ═══════════════════════════════════════════════
-// DealerSense Customer Portal — Global Styles
-// Modern consumer: Carvana/Tesla inspired
+// DealerPulse Customer Portal — Global Styles
+// Modern consumer: vibrant indigo-teal gradient theme
 // ═══════════════════════════════════════════════
 
-$brand-primary: #2563eb;
-$brand-dark: #0f172a;
-$brand-accent: #06b6d4;
+$brand-primary: #6366f1;
+$brand-secondary: #06b6d4;
+$brand-dark: #312e81;
+$brand-accent: #f59e0b;
 $text-primary: #1e293b;
 $text-muted: #64748b;
-$bg-light: #f8fafc;
-$bg-hero: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+$bg-light: #faf9ff;
+$bg-hero: linear-gradient(135deg, #4f46e5 0%, #06b6d4 50%, #10b981 100%);
 $card-shadow: 0 2px 8px rgba(0,0,0,0.06);
 $card-hover-shadow: 0 8px 24px rgba(0,0,0,0.12);
 
@@ -48,7 +49,7 @@ body {
   }
 
   .btn-chat {
-    background: $brand-primary;
+    background: linear-gradient(135deg, #6366f1, #06b6d4);
     color: white;
     border: none;
     border-radius: 24px;
@@ -58,7 +59,7 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
-    &:hover { background: darken($brand-primary, 8%); }
+    &:hover { opacity: 0.9; }
   }
 }
 
@@ -66,10 +67,10 @@ body {
 .hero {
   background: $bg-hero;
   color: white;
-  padding: 60px 0;
+  padding: 80px 0;
   text-align: center;
   h1 { font-weight: 700; font-size: 2.5rem; margin-bottom: 12px; }
-  p { color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 0 auto 24px; }
+  p { color: #e0e7ff; font-size: 1.1rem; max-width: 600px; margin: 0 auto 24px; }
 }
 
 .hero-sm {
@@ -88,16 +89,16 @@ body {
   transition: all 0.3s;
   cursor: pointer;
   border: 2px solid transparent;
-  &:hover { box-shadow: $card-hover-shadow; transform: translateY(-4px); }
-  &.selected { border-color: $brand-primary; }
+  &:hover { box-shadow: $card-hover-shadow; transform: translateY(-4px); border-color: #c7d2fe; }
+  &.selected { border-color: $brand-primary; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
 
   .vehicle-img {
     height: 180px;
-    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+    background: linear-gradient(135deg, #eef2ff, #e0e7ff);
     display: flex;
     align-items: center;
     justify-content: center;
-    i { font-size: 4rem; color: #94a3b8; }
+    i { font-size: 4rem; color: #a5b4fc; }
   }
 
   .vehicle-body {
@@ -129,7 +130,7 @@ body {
       font-size: 0.7rem;
       padding: 3px 8px;
       border-radius: 12px;
-      background: #f1f5f9;
+      background: #eef2ff;
       color: $text-muted;
     }
     .tag-alert {
@@ -164,7 +165,7 @@ body {
   white-space: pre-wrap;
 
   &.user {
-    background: $brand-primary;
+    background: linear-gradient(135deg, #6366f1, #818cf8);
     color: white;
     margin-left: auto;
     border-bottom-right-radius: 6px;
@@ -173,14 +174,14 @@ body {
   &.assistant {
     background: white;
     color: $text-primary;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #e0e7ff;
     margin-right: auto;
     border-bottom-left-radius: 6px;
   }
 
   &.typing {
     background: white;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #e0e7ff;
     color: $text-muted;
     font-style: italic;
   }
@@ -188,13 +189,13 @@ body {
 
 .chat-input-bar {
   padding: 16px 0;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid #e0e7ff;
   display: flex;
   gap: 8px;
 
   input {
     flex: 1;
-    border: 2px solid #e2e8f0;
+    border: 2px solid #e0e7ff;
     border-radius: 24px;
     padding: 12px 20px;
     font-size: 0.95rem;
@@ -203,7 +204,7 @@ body {
   }
 
   button {
-    background: $brand-primary;
+    background: linear-gradient(135deg, #6366f1, #06b6d4);
     color: white;
     border: none;
     border-radius: 50%;
@@ -213,7 +214,7 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 1.2rem;
-    &:hover { background: darken($brand-primary, 8%); }
+    &:hover { opacity: 0.9; }
     &:disabled { background: #cbd5e1; }
   }
 }
@@ -229,7 +230,7 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid #eef2ff;
     &:last-child { border-bottom: none; }
   }
 
@@ -246,10 +247,10 @@ body {
 // ── Footer ──
 .footer {
   background: $brand-dark;
-  color: #94a3b8;
+  color: #a5b4fc;
   padding: 40px 0 24px;
   margin-top: 60px;
-  a { color: #60a5fa; text-decoration: none; &:hover { color: white; } }
+  a { color: #818cf8; text-decoration: none; &:hover { color: white; } }
   .footer-brand { color: white; font-weight: 700; font-size: 1.1rem; }
 }
 

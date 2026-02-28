@@ -7,8 +7,8 @@ import { Component } from '@angular/core';
       <div class="container d-flex align-items-center justify-content-between">
         <!-- Brand -->
         <a class="navbar-brand text-decoration-none" routerLink="/">
-          <i class="bi bi-car-front"></i>
-          Prestige <span class="brand-accent">Chevrolet</span>
+            <i class="bi bi-search-heart"></i>
+            MyNext<span class="brand-accent">AutoSearch</span>
         </a>
 
         <!-- Nav links -->
@@ -32,7 +32,7 @@ import { Component } from '@angular/core';
 
         <!-- Chat CTA -->
         <a routerLink="/chat" class="btn-chat text-decoration-none">
-          <i class="bi bi-chat-dots-fill"></i> AI Assistant
+            <i class="bi bi-chat-dots-fill"></i> Help Me Find
         </a>
       </div>
     </nav>
