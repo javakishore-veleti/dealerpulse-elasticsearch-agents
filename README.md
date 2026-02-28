@@ -233,3 +233,14 @@ dealerpulse-elasticsearch-agents/
 ## License
 
 MIT — See [LICENSE](LICENSE)
+
+```shell
+
+mkdir -p registry/tools
+mkdir -p registry/agents
+mkdir -p registry/scenarios
+mkdir -p registry/workflows
+mkdir -p dealerpulse_v2
+touch dealerpulse_v2/__init__.py
+
+```
