@@ -39,7 +39,7 @@ def list_tools():
     """List all tools with local + remote registration status."""
     if not kibana_client.is_configured():
         tools = registry_loader.get_all_tools()
-        return [{"id": t["id"], "label": t["meta"]["label"], "type": t["type"], "registered": False} for t in tools]
+        return [{"id": t["id"], "label": t["meta"]["label"], "type": t["type"], "category": t["meta"]["category"], "registered": False} for t in tools]
     return kibana_client.list_tools_with_status()
 
 
@@ -82,7 +82,7 @@ def list_agents():
     """List all agents with local + remote registration status."""
     if not kibana_client.is_configured():
         agents = registry_loader.get_all_agents()
-        return [{"id": a["id"], "name": a["name"], "persona": a["meta"]["persona"], "registered": False} for a in agents]
+        return [{"id": a["id"], "name": a["name"], "persona": a["meta"]["persona"], "patterns": a["meta"]["patterns"], "custom_tool_count": len(a["meta"]["custom_tools"]), "builtin_tool_count": len(a["meta"]["builtin_tools"]), "registered": False} for a in agents]
     return kibana_client.list_agents_with_status()
 
 

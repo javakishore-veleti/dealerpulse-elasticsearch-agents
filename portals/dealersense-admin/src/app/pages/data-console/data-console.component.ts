@@ -10,6 +10,26 @@ interface IndexInfo {
   icon: string;
 }
 
+interface ToolInfo {
+  id: string;
+  label: string;
+  type: string;
+  category: string;
+  registered: boolean;
+  loading?: boolean;
+}
+
+interface AgentInfo {
+  id: string;
+  name: string;
+  persona: string;
+  patterns: string[];
+  custom_tool_count: number;
+  builtin_tool_count: number;
+  registered: boolean;
+  loading?: boolean;
+}
+
 @Component({
   selector: 'app-data-console',
   template: `
@@ -133,6 +153,123 @@ interface IndexInfo {
           <div *ngIf="testError" class="alert alert-danger mt-3">{{ testError }}</div>
         </div>
       </div>
+      <!-- Panel 5: Tool Registry -->
+      <div class="col-12">
+        <div class="card stat-card p-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="mb-0 fw-bold"><i class="bi bi-tools text-info"></i> Tool Registry</h6>
+            <div class="d-flex gap-2 align-items-center">
+              <span class="badge" [ngClass]="kibanaConnected ? 'bg-success' : 'bg-secondary'">
+                {{ kibanaConnected ? 'Kibana Connected' : 'Kibana Not Connected' }}
+              </span>
+              <button class="btn btn-sm btn-outline-primary" (click)="registerAllTools()" [disabled]="registeringAllTools">
+                <i class="bi" [ngClass]="registeringAllTools ? 'bi-hourglass-split' : 'bi-cloud-upload'"></i>
+                {{ registeringAllTools ? 'Registering...' : 'Register All Tools' }}
+              </button>
+              <button class="btn btn-sm btn-outline-danger" (click)="deleteAllTools()">
+                <i class="bi bi-trash"></i> Delete All
+              </button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Tool</th>
+                  <th>Type</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tool of tools">
+                  <td><strong>{{ tool.label }}</strong><br><small class="text-muted">{{ tool.id }}</small></td>
+                  <td><span class="badge bg-info">{{ tool.type }}</span></td>
+                  <td>{{ tool.category }}</td>
+                  <td>
+                    <span class="badge" [ngClass]="tool.registered ? 'bg-success' : 'bg-secondary'">
+                      {{ tool.registered ? '✓ Registered' : 'Not Registered' }}
+                    </span>
+                  </td>
+                  <td>
+                    <button *ngIf="!tool.registered" class="btn btn-sm btn-outline-primary" (click)="registerTool(tool)" [disabled]="tool.loading">
+                      {{ tool.loading ? 'Working...' : 'Register' }}
+                    </button>
+                    <button *ngIf="tool.registered" class="btn btn-sm btn-outline-danger" (click)="deleteTool(tool)" [disabled]="tool.loading">
+                      {{ tool.loading ? 'Working...' : 'Delete' }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mt-2 text-muted">
+            <strong>{{ registeredTools }}</strong> of {{ tools.length }} tools registered
+          </div>
+          <div *ngIf="toolMessage" class="alert mt-2 mb-0" [ngClass]="toolSuccess ? 'alert-success' : 'alert-danger'">
+            {{ toolMessage }}
+          </div>
+        </div>
+      </div>
+      <!-- Panel 6: Agent Registry -->
+      <div class="col-12">
+        <div class="card stat-card p-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="mb-0 fw-bold"><i class="bi bi-robot text-primary"></i> Agent Registry</h6>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-outline-primary" (click)="registerAllAgents()" [disabled]="registeringAllAgents">
+                <i class="bi" [ngClass]="registeringAllAgents ? 'bi-hourglass-split' : 'bi-cloud-upload'"></i>
+                {{ registeringAllAgents ? 'Registering...' : 'Register All Agents' }}
+              </button>
+              <button class="btn btn-sm btn-outline-danger" (click)="deleteAllAgents()">
+                <i class="bi bi-trash"></i> Delete All
+              </button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Agent</th>
+                  <th>Persona</th>
+                  <th>Patterns</th>
+                  <th>Tools</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let agent of agents">
+                  <td><strong>{{ agent.name }}</strong><br><small class="text-muted">{{ agent.id }}</small></td>
+                  <td>{{ agent.persona }}</td>
+                  <td><span *ngFor="let p of agent.patterns" class="badge bg-light text-dark me-1">{{ p }}</span></td>
+                  <td>{{ agent.custom_tool_count }} custom + {{ agent.builtin_tool_count }} built-in</td>
+                  <td>
+                    <span class="badge" [ngClass]="agent.registered ? 'bg-success' : 'bg-secondary'">
+                      {{ agent.registered ? '✓ Registered' : 'Not Registered' }}
+                    </span>
+                  </td>
+                  <td>
+                    <button *ngIf="!agent.registered" class="btn btn-sm btn-outline-primary" (click)="registerAgent(agent)" [disabled]="agent.loading">
+                      {{ agent.loading ? 'Working...' : 'Register' }}
+                    </button>
+                    <button *ngIf="agent.registered" class="btn btn-sm btn-outline-danger" (click)="deleteAgent(agent)" [disabled]="agent.loading">
+                      {{ agent.loading ? 'Working...' : 'Delete' }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mt-2 text-muted">
+            <strong>{{ registeredAgents }}</strong> of {{ agents.length }} agents registered
+          </div>
+          <div *ngIf="agentMessage" class="alert mt-2 mb-0" [ngClass]="agentSuccess ? 'alert-success' : 'alert-danger'">
+            {{ agentMessage }}
+          </div>
+        </div>
+      </div>
 
     </div>
   `,
@@ -171,11 +308,24 @@ export class DataConsoleComponent implements OnInit {
     { id: 7, name: 'Full Morning Briefing', badge: 'All Agents', badgeClass: 'bg-dark', description: 'All 4 agents coordinate for dealer principal' },
   ];
 
+  // ═══ Agent Builder v2 ═══
+  kibanaConnected = false;
+  kibanaStatus: any = null;
+  tools: ToolInfo[] = [];
+  agents: AgentInfo[] = [];
+  registeringAllTools = false;
+  registeringAllAgents = false;
+  toolMessage = '';
+  toolSuccess = false;
+  agentMessage = '';
+  agentSuccess = false;
+
   constructor(private api: ApiService) {}
 
   ngOnInit() {
     this.checkHealth();
     this.refreshIndices();
+    this.refreshV2();
   }
 
   get totalDocs() { return this.indices.reduce((sum, i) => sum + i.doc_count, 0); }
@@ -292,4 +442,96 @@ export class DataConsoleComponent implements OnInit {
       }
     });
   }
+
+  // ═══ Agent Builder v2 Methods ═══
+
+  refreshV2() {
+    this.api.getAgentBuilderStatus().subscribe({
+      next: (res) => { this.kibanaConnected = res.connected; this.kibanaStatus = res; },
+      error: () => { this.kibanaConnected = false; }
+    });
+    this.api.getV2Tools().subscribe({
+      next: (res) => { this.tools = res; },
+      error: () => {}
+    });
+    this.api.getV2Agents().subscribe({
+      next: (res) => { this.agents = res; },
+      error: () => {}
+    });
+  }
+
+  registerAllTools() {
+    this.registeringAllTools = true;
+    this.toolMessage = '';
+    this.api.registerAllTools().subscribe({
+      next: (res) => {
+        this.registeringAllTools = false;
+        const ok = Array.isArray(res) ? res.filter((r: any) => r.success).length : 0;
+        this.toolSuccess = ok > 0;
+        this.toolMessage = `${ok} of 7 tools registered`;
+        this.refreshV2();
+      },
+      error: () => { this.registeringAllTools = false; this.toolSuccess = false; this.toolMessage = 'Failed to register tools'; }
+    });
+  }
+
+  registerTool(tool: ToolInfo) {
+    tool.loading = true;
+    this.api.registerTool(tool.id).subscribe({
+      next: () => { tool.loading = false; this.refreshV2(); },
+      error: () => { tool.loading = false; }
+    });
+  }
+
+  deleteTool(tool: ToolInfo) {
+    tool.loading = true;
+    this.api.deleteTool(tool.id).subscribe({
+      next: () => { tool.loading = false; this.refreshV2(); },
+      error: () => { tool.loading = false; }
+    });
+  }
+
+  deleteAllTools() {
+    if (!confirm('Delete all tools from Agent Builder?')) return;
+    this.api.deleteAllTools().subscribe({ next: () => this.refreshV2() });
+  }
+
+  registerAllAgents() {
+    this.registeringAllAgents = true;
+    this.agentMessage = '';
+    this.api.registerAllAgents().subscribe({
+      next: (res) => {
+        this.registeringAllAgents = false;
+        const ok = Array.isArray(res) ? res.filter((r: any) => r.success).length : 0;
+        this.agentSuccess = ok > 0;
+        this.agentMessage = `${ok} of 5 agents registered`;
+        this.refreshV2();
+      },
+      error: () => { this.registeringAllAgents = false; this.agentSuccess = false; this.agentMessage = 'Failed to register agents'; }
+    });
+  }
+
+  registerAgent(agent: AgentInfo) {
+    agent.loading = true;
+    this.api.registerAgent(agent.id).subscribe({
+      next: () => { agent.loading = false; this.refreshV2(); },
+      error: () => { agent.loading = false; }
+    });
+  }
+
+  deleteAgent(agent: AgentInfo) {
+    agent.loading = true;
+    this.api.deleteAgent(agent.id).subscribe({
+      next: () => { agent.loading = false; this.refreshV2(); },
+      error: () => { agent.loading = false; }
+    });
+  }
+
+  deleteAllAgents() {
+    if (!confirm('Delete all agents from Agent Builder?')) return;
+    this.api.deleteAllAgents().subscribe({ next: () => this.refreshV2() });
+  }
+
+  get registeredTools() { return this.tools.filter(t => t.registered).length; }
+  get registeredAgents() { return this.agents.filter(a => a.registered).length; }
 }
