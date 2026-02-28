@@ -4,10 +4,6 @@
   "description": "Multi-Agent Dealer Operations Intelligence — command runner (not a Node.js project)",
   "private": true,
 
-  "//": "═══════════════════════════════════════════════════════════════",
-  "// README": "This package.json is a COMMAND RUNNER, not a Node.js project. Run any command with: npm run <script-name>",
-  "//": "═══════════════════════════════════════════════════════════════",
-
   "config": {
     "venv_base": "~/runtime_data/python_venvs/hackathons/elastic_search_agents",
     "venv_name": "dealerpulse-elastic-agents",
@@ -92,6 +88,15 @@
 
     "// ── HELP ──": "",
 
-    "help": "echo '\n═══ DealerPulse Command Runner ═══\n\nFIRST TIME:\n  npm run setup              Create env + install everything\n\nDAILY USE:\n  npm run docker:es          Start Elasticsearch + Kibana\n  npm run data:load          Load synthetic dealer data\n  npm run app:cli            Interactive agent CLI\n  npm run app:api            Start web UI at :8000\n  npm run app:scenario 3     Run scenario 3 (service diagnostic)\n\nENVIRONMENT:\n  npm run env:activate       Shows conda activate command\n  npm run env:info           Check if env exists\n  npm run deps:install       Reinstall dependencies via uv\n\nDEVOPS:\n  npm run docker:up          Start all services\n  npm run docker:status      Health check all services\n  npm run docker:down        Stop (keep data)\n  npm run docker:destroy     Nuclear reset\n'"
+    "help": "echo '\n═══ DealerPulse Command Runner ═══\n\nFIRST TIME:\n  npm run setup              Create env + install everything\n\nDAILY USE:\n  npm run docker:es          Start Elasticsearch + Kibana\n  npm run data:load          Load synthetic dealer data\n  npm run app:cli            Interactive agent CLI\n  npm run app:api            Start web UI at :8000\n  npm run app:scenario 3     Run scenario 3 (service diagnostic)\n\nENVIRONMENT:\n  npm run env:activate       Shows conda activate command\n  npm run env:info           Check if env exists\n  npm run deps:install       Reinstall dependencies via uv\n\nDEVOPS:\n  npm run docker:up          Start all services\n  npm run docker:status      Health check all services\n  npm run docker:down        Stop (keep data)\n  npm run docker:destroy     Nuclear reset\n'",
+
+    "// ── PORTALS ──": "",
+    "ui:install": "cd portals/dealersense-admin && npm install",
+    "ui:admin": "cd portals/dealersense-admin && npm start",
+    "ui:build": "cd portals/dealersense-admin && npm run build",
+    "ui:docker": "cd portals/dealersense-admin && npm run build:docker",
+    "start:all": "./start-all.sh",
+    "start:backend": "./start-all.sh --backend",
+    "start:ui": "./start-all.sh --ui"
   }
 }
