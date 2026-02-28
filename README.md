@@ -217,9 +217,9 @@ dealerpulse-elasticsearch-agents/
 
 ## Inspired By
 
-- [Cox Automotive: How AI Helps Your People Win](https://www.coxautoinc.com/) — Four dealer personas with AI-transformed workflows (NADA 2026)
-- [J.D. Power CSI Study](https://www.jdpower.com/) — 12% first-visit fix failure rate
-- [NADA Annual Financial Profile](https://www.nada.org/) — Fixed ops = 50%+ gross profit
+- Market research on Four dealer personas with AI-transformed workflows (NADA 2026)
+- Case Study on — 12% first-visit fix failure rate
+- Research on Annual profiles — Fixed ops = 50%+ gross profit
 
 ## Tech Stack
 
