@@ -16,7 +16,7 @@ from data.synthetic.generate_all import generate_all
 
 
 def wait_for_es(es: Elasticsearch, max_retries: int = 30):
-    """Wait for Elasticsearch to be ready."""
+    """Wait for Elasticsearch to be ready (supports serverless)."""
     for i in range(max_retries):
         try:
             health = es.cluster.health()
@@ -25,10 +25,16 @@ def wait_for_es(es: Elasticsearch, max_retries: int = 30):
                 print(f"✓ Elasticsearch is ready (status: {status})")
                 return True
         except Exception:
-            pass
-        print(f"  Waiting for Elasticsearch... ({i+1}/{max_retries})")
+            try:
+                info = es.info()
+                if info.get("version"):
+                    print(f"✓ Elasticsearch is ready (serverless, version: {info['version']['number']})")
+                    return True
+            except Exception:
+                pass
+        print(f"  Waiting for Elasticsearch... ({i + 1}/{max_retries})")
         time.sleep(2)
-    
+
     print("✗ Elasticsearch did not become ready in time.")
     return False
 
