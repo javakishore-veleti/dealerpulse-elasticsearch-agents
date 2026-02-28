@@ -1,0 +1,67 @@
+{
+  "hash": "db40d034",
+  "configHash": "035627d0",
+  "lockfileHash": "08dc68b6",
+  "browserHash": "9451046a",
+  "optimized": {
+    "@angular/common": {
+      "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "23e3fc88",
+      "needsInterop": false
+    },
+    "@angular/common/http": {
+      "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
+      "file": "@angular_common_http.js",
+      "fileHash": "7dfdf010",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "992b01d8",
+      "needsInterop": false
+    },
+    "@angular/forms": {
+      "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
+      "file": "@angular_forms.js",
+      "fileHash": "85484247",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "6b6c18a9",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "b4873f73",
+      "needsInterop": false
+    },
+    "@ng-bootstrap/ng-bootstrap": {
+      "src": "../../../../../node_modules/@ng-bootstrap/ng-bootstrap/fesm2022/ng-bootstrap.mjs",
+      "file": "@ng-bootstrap_ng-bootstrap.js",
+      "fileHash": "43396a54",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-S6OZL6GK": {
+      "file": "chunk-S6OZL6GK.js"
+    },
+    "chunk-BXZXLZV3": {
+      "file": "chunk-BXZXLZV3.js"
+    },
+    "chunk-J5YVSJEG": {
+      "file": "chunk-J5YVSJEG.js"
+    },
+    "chunk-NDNA7EKE": {
+      "file": "chunk-NDNA7EKE.js"
+    },
+    "chunk-VEZ6BQMO": {
+      "file": "chunk-VEZ6BQMO.js"
+    }
+  }
+}

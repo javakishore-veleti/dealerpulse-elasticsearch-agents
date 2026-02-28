@@ -39,23 +39,53 @@ import { ApiService } from '../../services/api.service';
       </div>
     </div>
 
-    <!-- AI-Powered Results -->
-    <div *ngIf="response" class="agent-response mb-3">{{ response }}</div>
+    <!-- Quick Actions -->
+    <div class="d-flex flex-wrap gap-2 mb-3">
+      <button class="btn btn-outline-danger btn-sm" (click)="askAgent('Show all aging stock over 60 days with total capital exposure by model. Recommend specific price adjustments.')">
+        <i class="bi bi-clock-history"></i> Aging Stock Report
+      </button>
+      <button class="btn btn-outline-warning btn-sm" (click)="askAgent('Find all vehicles priced above market average. Show the delta and recommend repricing.')">
+        <i class="bi bi-graph-up-arrow"></i> Pricing Alerts
+      </button>
+      <button class="btn btn-outline-success btn-sm" (click)="askAgent('Which vehicles have active incentives right now? Show the best stacking opportunities.')">
+        <i class="bi bi-tags"></i> Incentive Opportunities
+      </button>
+      <button class="btn btn-outline-primary btn-sm" (click)="askAgent('Give me a full inventory health report: total units, average days on lot, turn rate, and risk assessment.')">
+        <i class="bi bi-clipboard-data"></i> Health Report
+      </button>
+    </div>
 
-    <!-- Quick Queries -->
-    <div *ngIf="!response" class="text-center text-muted py-4">
-      <p>Try these:</p>
-      <div class="d-flex flex-wrap justify-content-center gap-2">
-        <button class="btn btn-outline-secondary btn-sm" (click)="query='aging stock over 60 days'; search()">
-          Aging Stock (60+ days)
+    <!-- Loading -->
+    <div *ngIf="loading" class="text-center py-4">
+      <div class="spinner-border text-warning mb-2"></div>
+      <p class="text-muted">Inventory Agent analyzing stock...</p>
+    </div>
+
+    <!-- Response -->
+    <div *ngIf="response && !loading" class="card stat-card p-3">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h6 class="mb-0 fw-bold"><i class="bi bi-robot text-warning"></i> Inventory Agent (Josh)</h6>
+        <span class="badge bg-success">Agent Builder</span>
+      </div>
+      <div class="agent-response" style="max-height:500px; overflow-y:auto; white-space:pre-wrap;">{{ response }}</div>
+      <div *ngIf="conversationId" class="mt-3 d-flex flex-wrap gap-2">
+        <strong class="me-2">Follow-up:</strong>
+        <button class="btn btn-sm btn-outline-danger" (click)="askAgent('For the aging stock you identified, match them to any active customer leads who might be interested.')">
+          <i class="bi bi-link-45deg"></i> Match to Leads
         </button>
-        <button class="btn btn-outline-secondary btn-sm" (click)="query='EV SUV inventory'; search()">
-          EV SUV Inventory
+        <button class="btn btn-sm btn-outline-warning" (click)="askAgent('What happens if we take no action on the aging stock? Give me the 30-day risk assessment.')">
+          <i class="bi bi-exclamation-triangle"></i> Risk Assessment
         </button>
-        <button class="btn btn-outline-secondary btn-sm" (click)="query='Summit 1500 in stock'; search()">
-          Summit 1500
+        <button class="btn btn-sm btn-outline-success" (click)="askAgent('Draft a price adjustment memo for the inventory manager with specific dollar amounts for each vehicle.')">
+          <i class="bi bi-file-text"></i> Price Memo
         </button>
       </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!response && !loading" class="text-center text-muted py-4">
+      <i class="bi bi-car-front fs-1 d-block mb-2"></i>
+      <p>Search inventory or use the quick actions above to get AI-powered insights.</p>
     </div>
   `,
 })
@@ -65,6 +95,7 @@ export class InventoryComponent {
   agingFilter = '';
   response = '';
   loading = false;
+  conversationId = '';
 
   constructor(private api: ApiService) {}
 
@@ -74,8 +105,25 @@ export class InventoryComponent {
     if (!fullQuery) return;
     this.loading = true;
     this.response = '';
-    this.api.searchInventory(fullQuery).subscribe({
-      next: (res) => { this.response = res.response; this.loading = false; },
+    this.api.v2Chat('dealerpulse-inventory-agent', `Search inventory: ${fullQuery}`).subscribe({
+      next: (res) => {
+        this.response = res.response || res.error || 'No response';
+        this.conversationId = res.conversation_id || '';
+        this.loading = false;
+      },
+      error: (err) => { this.response = `Error: ${err.message}`; this.loading = false; },
+    });
+  }
+
+  askAgent(question: string) {
+    this.loading = true;
+    this.response = '';
+    this.api.v2Chat('dealerpulse-inventory-agent', question, this.conversationId).subscribe({
+      next: (res) => {
+        this.response = res.response || res.error || 'No response';
+        this.conversationId = res.conversation_id || '';
+        this.loading = false;
+      },
       error: (err) => { this.response = `Error: ${err.message}`; this.loading = false; },
     });
   }
