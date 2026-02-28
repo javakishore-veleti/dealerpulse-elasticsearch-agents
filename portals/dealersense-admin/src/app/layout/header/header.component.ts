@@ -31,6 +31,8 @@ export class HeaderComponent implements OnInit {
     '/service-orders': 'Service Orders',
     '/devops': 'DevOps Console',
     '/settings': 'Settings',
+    'data-console': 'Data Management Console',
+    'architecture': 'System Architecture'
   };
 
   constructor(private router: Router, private api: ApiService) {}

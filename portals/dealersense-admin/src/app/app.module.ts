@@ -15,6 +15,9 @@ import { LeadsComponent } from './pages/leads/leads.component';
 import { ServiceOrdersComponent } from './pages/service-orders/service-orders.component';
 import { DevopsComponent } from './pages/devops/devops.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { CommonModule } from '@angular/common';
+import { DataConsoleComponent } from './pages/data-console/data-console.component';
+import { ArchitectureComponent } from './pages/architecture/architecture.component';
 
 @NgModule({
   declarations: [
@@ -28,13 +31,16 @@ import { SettingsComponent } from './pages/settings/settings.component';
     ServiceOrdersComponent,
     DevopsComponent,
     SettingsComponent,
+    DataConsoleComponent,  // ← must be here,
+    ArchitectureComponent,  // ← add here
   ],
   imports: [
     BrowserModule,
+    CommonModule,    // ← must be here
     HttpClientModule,
     FormsModule,
     NgbModule,
-    AppRoutingModule,
+    AppRoutingModule
   ],
   bootstrap: [AppComponent]
 })

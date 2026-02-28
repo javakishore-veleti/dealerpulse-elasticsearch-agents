@@ -51,4 +51,29 @@ export class ApiService {
   getServiceStatus(): Observable<any> {
     return this.http.get(`${this.base}/health`);
   }
+
+  // Data Management
+  getIndices() {
+    return this.http.get<any>(`${this.base}/indices`);
+  }
+
+  loadAllData() {
+    return this.http.post<any>(`${this.base}/data/load`, {});
+  }
+
+  loadIndexData(indexName: string) {
+    return this.http.post<any>(`${this.base}/data/load/${indexName}`, {});
+  }
+
+  resetAllData() {
+    return this.http.delete<any>(`${this.base}/data/reset`);
+  }
+
+  resetIndex(indexName: string) {
+    return this.http.delete<any>(`${this.base}/data/reset/${indexName}`);
+  }
+
+  testScenario(scenarioId: number) {
+    return this.http.post<any>(`${this.base}/scenario/test/${scenarioId}`, {});
+  }
 }

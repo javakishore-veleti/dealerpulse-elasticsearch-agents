@@ -7,6 +7,8 @@ import { LeadsComponent } from './pages/leads/leads.component';
 import { ServiceOrdersComponent } from './pages/service-orders/service-orders.component';
 import { DevopsComponent } from './pages/devops/devops.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { DataConsoleComponent } from './pages/data-console/data-console.component';
+import { ArchitectureComponent } from './pages/architecture/architecture.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -17,6 +19,8 @@ const routes: Routes = [
   { path: 'service-orders', component: ServiceOrdersComponent },
   { path: 'devops', component: DevopsComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'data-console', component: DataConsoleComponent },
+  { path: 'architecture', component: ArchitectureComponent },
   { path: '**', redirectTo: 'dashboard' },
 ];
 

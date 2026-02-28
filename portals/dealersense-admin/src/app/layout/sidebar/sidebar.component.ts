@@ -28,6 +28,13 @@ import { Component } from '@angular/core';
         <i class="bi" [ngClass]="item.icon"></i>
         {{ item.label }}
       </a>
+      <div class="nav-section">HACKATHON</div>
+      <a class="nav-link" routerLink="/data-console" routerLinkActive="active">
+        <i class="bi bi-database-gear"></i> Data Console
+      </a>
+      <a class="nav-link" routerLink="/architecture" routerLinkActive="active">
+        <i class="bi bi-diagram-3"></i> Architecture
+      </a>
 
       <!-- Footer -->
       <div class="mt-auto p-3 border-top">

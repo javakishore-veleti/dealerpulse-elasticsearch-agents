@@ -224,6 +224,123 @@ async def health():
         return {"status": "degraded", "error": str(e)}
 
 
+# ═══════════════════════════════════════════════
+# Data Management Endpoints (Hackathon Console)
+# ═══════════════════════════════════════════════
+
+@app.get("/api/indices")
+async def list_indices():
+    """List all dealer indices with doc counts"""
+    try:
+        from config.es_config import get_es_client
+        es = get_es_client()
+        expected = [
+            "dealer-inventory", "dealer-leads", "dealer-service-orders",
+            "dealer-incentives", "dealer-pricing-alerts", "dealer-tsb-recalls"
+        ]
+        results = []
+        for idx in expected:
+            try:
+                count = es.count(index=idx)["count"]
+                results.append({"index": idx, "exists": True, "doc_count": count})
+            except Exception:
+                results.append({"index": idx, "exists": False, "doc_count": 0})
+        return {"indices": results}
+    except Exception as e:
+        return {"indices": [], "error": str(e)}
+
+
+@app.post("/api/data/load")
+async def load_all_data():
+    """Load all synthetic data into ES"""
+    try:
+        import subprocess
+        result = subprocess.run(
+            ["python", "scripts/load_data.py"],
+            capture_output=True, text=True, timeout=120
+        )
+        return {
+            "success": result.returncode == 0,
+            "output": result.stdout,
+            "error": result.stderr if result.returncode != 0 else None
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@app.post("/api/data/load/{index_name}")
+async def load_index_data(index_name: str):
+    """Load synthetic data for a specific index"""
+    index_to_script = {
+        "dealer-inventory": "data/synthetic/generate_inventory.py",
+        "dealer-leads": "data/synthetic/generate_leads.py",
+        "dealer-service-orders": "data/synthetic/generate_service_orders.py",
+        "dealer-incentives": "data/synthetic/generate_incentives.py",
+        "dealer-pricing-alerts": "data/synthetic/generate_pricing_alerts.py",
+        "dealer-tsb-recalls": "data/synthetic/generate_tsb_recalls.py",
+    }
+    if index_name not in index_to_script:
+        return {"success": False, "error": f"Unknown index: {index_name}"}
+    try:
+        import subprocess
+        result = subprocess.run(
+            ["python", index_to_script[index_name]],
+            capture_output=True, text=True, timeout=60
+        )
+        return {
+            "success": result.returncode == 0,
+            "output": result.stdout,
+            "error": result.stderr if result.returncode != 0 else None
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@app.delete("/api/data/reset")
+async def reset_all_data():
+    """Delete all dealer indices"""
+    try:
+        from config.es_config import get_es_client
+        es = get_es_client()
+        deleted = []
+        for idx in ["dealer-inventory", "dealer-leads", "dealer-service-orders",
+                     "dealer-incentives", "dealer-pricing-alerts", "dealer-tsb-recalls"]:
+            try:
+                es.indices.delete(index=idx, ignore_unavailable=True)
+                deleted.append(idx)
+            except Exception:
+                pass
+        return {"success": True, "deleted": deleted}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@app.delete("/api/data/reset/{index_name}")
+async def reset_index(index_name: str):
+    """Delete a specific index"""
+    try:
+        from config.es_config import get_es_client
+        es = get_es_client()
+        es.indices.delete(index=index_name, ignore_unavailable=True)
+        return {"success": True, "deleted": index_name}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@app.post("/api/scenario/test/{scenario_id}")
+async def test_scenario(scenario_id: int):
+    """Run a scenario and return full debug output"""
+    try:
+        from dealerpulse.scenarios import run_scenario
+        result = run_scenario(scenario_id)
+        return {
+            "success": True,
+            "scenario_id": scenario_id,
+            "response": result
+        }
+    except Exception as e:
+        return {"success": False, "scenario_id": scenario_id, "error": str(e)}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
