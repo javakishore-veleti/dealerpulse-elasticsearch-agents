@@ -42,9 +42,25 @@ start_backend() {
 start_admin_ui() {
   echo -e "${BLUE}🅰️  Starting Admin UI on :4200${NC}"
   cd "$SCRIPT_DIR/portals/dealersense-admin"
+  if [ ! -d "node_modules" ] || [ "package.json" -nt "node_modules/.package-lock.json" ]; then
+    echo "   📦 Installing/updating admin dependencies..."
+    npm install --silent
+  fi
   npm start &
   sleep 3
   echo -e "${GREEN}   ✓ Admin UI at http://localhost:4200${NC}"
+}
+
+start_customer_ui() {
+  echo -e "${BLUE}👤 Starting Customer UI on :4201${NC}"
+  cd "$SCRIPT_DIR/portals/dealersense-app"
+  if [ ! -d "node_modules" ] || [ "package.json" -nt "node_modules/.package-lock.json" ]; then
+    echo "   📦 Installing/updating customer dependencies..."
+    npm install --silent
+  fi
+  npm start &
+  sleep 3
+  echo -e "${GREEN}   ✓ Customer UI at http://localhost:4201${NC}"
 }
 
 # Parse args
@@ -68,6 +84,8 @@ case "${1:-}" in
     echo ""
     echo "  Press Ctrl+C to stop all"
     echo "═══════════════════════════════════════"
+    start_customer_ui
+    echo "  Customer: http://localhost:4201"
     ;;
 esac
 

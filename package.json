@@ -97,6 +97,10 @@
     "ui:docker": "cd portals/dealersense-admin && npm run build:docker",
     "start:all": "./start-all.sh",
     "start:backend": "./start-all.sh --backend",
-    "start:ui": "./start-all.sh --ui"
+    "start:ui": "./start-all.sh --ui",
+
+    "ui:customer": "cd portals/dealersense-app && npm start",
+    "ui:customer:install": "cd portals/dealersense-app && npm install",
+    "ui:customer:build": "cd portals/dealersense-app && npm run build"
   }
 }
