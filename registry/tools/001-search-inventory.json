@@ -1,0 +1,25 @@
+{
+  "id": "dealerpulse-search-inventory",
+  "type": "esql",
+  "description": "Search available vehicle inventory matching customer preferences and budget. Returns vehicles sorted by days on lot to prioritize aging stock.",
+  "configuration": {
+    "query": "FROM dealer-inventory | WHERE status == \"available\" AND msrp <= ?maxBudget | SORT days_on_lot DESC | LIMIT ?limit",
+    "params": {
+      "maxBudget": {
+        "type": "integer",
+        "description": "Maximum customer budget in dollars"
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max results to return"
+      }
+    }
+  },
+  "meta": {
+    "label": "Search Inventory by Preference",
+    "icon": "bi-car-front",
+    "indexes": ["dealer-inventory"],
+    "used_by": ["consumer", "sales", "inventory", "orchestrator"],
+    "category": "inventory"
+  }
+}

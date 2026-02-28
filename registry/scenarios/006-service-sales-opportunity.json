@@ -1,0 +1,13 @@
+{
+  "id": 6,
+  "name": "Service to Sales Opportunity",
+  "agent_id": "dealerpulse-orchestrator",
+  "input": "A customer's 2019 Horizon is in for its 3rd transmission repair. The repair cost now exceeds 40% of the vehicle value. Check if they're in our CRM, find matching new inventory with financing offers, and generate a proactive trade-up outreach message.",
+  "meta": {
+    "badge": "Multi-Agent",
+    "badge_class": "bg-success",
+    "description": "Repeat repair triggers trade-up outreach",
+    "agents_involved": ["Service Agent", "Sales Agent", "Inventory Agent"],
+    "complexity": "Multi"
+  }
+}

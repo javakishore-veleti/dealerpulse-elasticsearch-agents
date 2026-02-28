@@ -1,0 +1,13 @@
+{
+  "id": 7,
+  "name": "Full Morning Briefing",
+  "agent_id": "dealerpulse-orchestrator",
+  "input": "Generate a complete dealer morning briefing. Cover: overnight leads (count, matched to stock, follow-up needed), deals in progress, open service ROs with any TSB/warranty flags, repeat repair candidates, aging stock exposure, and new incentive programs. End with 3 specific recommended actions for today.",
+  "meta": {
+    "badge": "All Agents",
+    "badge_class": "bg-dark",
+    "description": "All 4 agents coordinate for dealer principal",
+    "agents_involved": ["Consumer Agent", "Sales Agent", "Service Agent", "Inventory Agent"],
+    "complexity": "Full"
+  }
+}

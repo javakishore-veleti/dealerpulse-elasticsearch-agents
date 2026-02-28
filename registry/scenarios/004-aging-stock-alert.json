@@ -1,0 +1,13 @@
+{
+  "id": 4,
+  "name": "Aging Stock Alert",
+  "agent_id": "dealerpulse-inventory-agent",
+  "input": "What's our exposure on aging stock? Show all vehicles past 60 days on lot, total dollar exposure by model, and recommend specific price adjustments. Check if any new incentives could help move these units.",
+  "meta": {
+    "badge": "Inventory",
+    "badge_class": "bg-warning",
+    "description": "$385K exposure on 60+ day inventory",
+    "agents_involved": ["Inventory Agent"],
+    "complexity": "Single"
+  }
+}

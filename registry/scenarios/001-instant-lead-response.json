@@ -1,0 +1,13 @@
+{
+  "id": 1,
+  "name": "Instant Lead Response",
+  "agent_id": "dealerpulse-consumer-agent",
+  "input": "A customer named Sarah just submitted a lead at 9:47 PM. She wants a mid-size SUV with AWD, budget $42,000. Find matching inventory, check incentives, and generate a personalized instant response.",
+  "meta": {
+    "badge": "Consumer",
+    "badge_class": "bg-danger",
+    "description": "Customer submits lead at 9:47 PM",
+    "agents_involved": ["Consumer Agent"],
+    "complexity": "Single"
+  }
+}

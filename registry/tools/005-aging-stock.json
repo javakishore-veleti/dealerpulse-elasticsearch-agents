@@ -1,0 +1,25 @@
+{
+  "id": "dealerpulse-aging-stock",
+  "type": "esql",
+  "description": "Identify aging inventory past a day threshold with total capital exposure by model. Critical for reducing carrying costs and floor plan interest.",
+  "configuration": {
+    "query": "FROM dealer-inventory | WHERE days_on_lot >= ?minDays AND status == \"available\" | STATS total_units = COUNT(*), total_exposure = SUM(msrp) BY model | SORT total_exposure DESC | LIMIT ?limit",
+    "params": {
+      "minDays": {
+        "type": "integer",
+        "description": "Minimum days on lot to flag as aging"
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max results to return"
+      }
+    }
+  },
+  "meta": {
+    "label": "Aging Stock Report",
+    "icon": "bi-clock-history",
+    "indexes": ["dealer-inventory"],
+    "used_by": ["inventory", "orchestrator"],
+    "category": "inventory"
+  }
+}

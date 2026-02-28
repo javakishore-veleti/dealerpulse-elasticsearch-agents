@@ -1,0 +1,25 @@
+{
+  "id": "dealerpulse-pricing-alerts",
+  "type": "esql",
+  "description": "Find vehicles priced above competitive market average. Shows price delta so inventory managers can adjust pricing to move units.",
+  "configuration": {
+    "query": "FROM dealer-pricing-alerts | WHERE delta > ?minDelta | SORT delta DESC | LIMIT ?limit",
+    "params": {
+      "minDelta": {
+        "type": "integer",
+        "description": "Minimum price delta above market to flag"
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max results to return"
+      }
+    }
+  },
+  "meta": {
+    "label": "Pricing vs Market Alerts",
+    "icon": "bi-graph-up-arrow",
+    "indexes": ["dealer-pricing-alerts"],
+    "used_by": ["sales", "inventory", "orchestrator"],
+    "category": "pricing"
+  }
+}

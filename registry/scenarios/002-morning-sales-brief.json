@@ -1,0 +1,13 @@
+{
+  "id": 2,
+  "name": "Morning Sales Brief",
+  "agent_id": "dealerpulse-sales-agent",
+  "input": "Prepare a morning sales briefing for the BDC agent. Include top active leads with their preferences, top 3 matching vehicles per lead, applicable incentives, competitive pricing position, and suggested opening offers for each.",
+  "meta": {
+    "badge": "Sales",
+    "badge_class": "bg-primary",
+    "description": "BDC agent prep with full intelligence",
+    "agents_involved": ["Sales Agent"],
+    "complexity": "Single"
+  }
+}

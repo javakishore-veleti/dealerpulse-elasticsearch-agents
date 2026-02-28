@@ -1,0 +1,25 @@
+{
+  "id": "dealerpulse-tsb-lookup",
+  "type": "esql",
+  "description": "Find Technical Service Bulletins matching DTC diagnostic codes. Used by service technicians to diagnose issues before opening the hood.",
+  "configuration": {
+    "query": "FROM dealer-tsb-recalls | WHERE dtc_codes LIKE ?dtcPattern | LIMIT ?limit",
+    "params": {
+      "dtcPattern": {
+        "type": "string",
+        "description": "DTC code pattern to search, e.g. *P0300*"
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max results to return"
+      }
+    }
+  },
+  "meta": {
+    "label": "Lookup TSB by DTC Code",
+    "icon": "bi-shield-exclamation",
+    "indexes": ["dealer-tsb-recalls"],
+    "used_by": ["service", "orchestrator"],
+    "category": "service"
+  }
+}

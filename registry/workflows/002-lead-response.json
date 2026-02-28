@@ -1,0 +1,14 @@
+{
+  "id": "dealerpulse-lead-response",
+  "name": "Instant Lead Response",
+  "description": "Automatically match a new customer lead to inventory and generate a personalized response.",
+  "steps": [
+    {"order": 1, "agent_id": "dealerpulse-consumer-agent", "task": "Search inventory matching customer preferences and budget"},
+    {"order": 2, "agent_id": "dealerpulse-consumer-agent", "task": "Check active incentives for matching vehicles"},
+    {"order": 3, "agent_id": "dealerpulse-consumer-agent", "task": "Generate personalized email with top matches and effective pricing"}
+  ],
+  "meta": {
+    "trigger": "event",
+    "frequency": "on-new-lead"
+  }
+}

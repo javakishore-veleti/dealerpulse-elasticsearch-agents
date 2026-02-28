@@ -1,0 +1,16 @@
+{
+  "id": "dealerpulse-price-adjustment",
+  "name": "Price Adjustment Workflow",
+  "description": "Identify aging stock, check market positioning, and generate pricing recommendations for manager approval.",
+  "steps": [
+    {"order": 1, "agent_id": "dealerpulse-inventory-agent", "task": "Identify vehicles past 60 days on lot with capital exposure"},
+    {"order": 2, "agent_id": "dealerpulse-inventory-agent", "task": "Check market pricing delta for flagged vehicles"},
+    {"order": 3, "agent_id": "dealerpulse-inventory-agent", "task": "Check new OEM incentives that could help move units"},
+    {"order": 4, "agent_id": "dealerpulse-inventory-agent", "task": "Generate specific price adjustment recommendations"},
+    {"order": 5, "agent_id": "dealerpulse-orchestrator", "task": "Present recommendations for manager approval (Human-in-the-Loop)"}
+  ],
+  "meta": {
+    "trigger": "scheduled",
+    "frequency": "weekly or on-demand"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": 3,
+  "name": "Diagnose Before Hood Opens",
+  "agent_id": "dealerpulse-service-agent",
+  "input": "A 2022 Summit 1500 just arrived with DTC codes P0300 and P0301, customer complaint is 'rough idle at cold start'. Look up matching TSBs, check service history for similar vehicles, and generate 3C documentation.",
+  "meta": {
+    "badge": "Service",
+    "badge_class": "bg-info",
+    "description": "DTC P0300+P0301: rough idle cold start",
+    "agents_involved": ["Service Agent"],
+    "complexity": "Single"
+  }
+}

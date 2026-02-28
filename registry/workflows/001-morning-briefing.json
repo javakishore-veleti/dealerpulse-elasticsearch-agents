@@ -1,0 +1,16 @@
+{
+  "id": "dealerpulse-morning-briefing",
+  "name": "Full Morning Briefing",
+  "description": "Orchestrator coordinates all 4 agents for a complete dealer morning report.",
+  "steps": [
+    {"order": 1, "agent_id": "dealerpulse-consumer-agent", "task": "Summarize overnight leads and matched inventory"},
+    {"order": 2, "agent_id": "dealerpulse-sales-agent", "task": "Active deals, at-risk opportunities, follow-up priorities"},
+    {"order": 3, "agent_id": "dealerpulse-service-agent", "task": "Open ROs, TSB flags, repeat repair candidates"},
+    {"order": 4, "agent_id": "dealerpulse-inventory-agent", "task": "Aging stock exposure, pricing alerts, new incentives"},
+    {"order": 5, "agent_id": "dealerpulse-orchestrator", "task": "Synthesize all departments, generate 3 recommended actions"}
+  ],
+  "meta": {
+    "trigger": "manual",
+    "frequency": "daily 6:30am or on-demand"
+  }
+}

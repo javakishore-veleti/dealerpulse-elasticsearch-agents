@@ -1,0 +1,21 @@
+{
+  "id": "dealerpulse-active-incentives",
+  "type": "esql",
+  "description": "Get currently active OEM incentive programs sorted by value. Used to maximize deal value when matching inventory to customer leads.",
+  "configuration": {
+    "query": "FROM dealer-incentives | WHERE end_date >= NOW() | SORT amount DESC | LIMIT ?limit",
+    "params": {
+      "limit": {
+        "type": "integer",
+        "description": "Max results to return"
+      }
+    }
+  },
+  "meta": {
+    "label": "Active OEM Incentives",
+    "icon": "bi-tags",
+    "indexes": ["dealer-incentives"],
+    "used_by": ["consumer", "sales", "inventory", "orchestrator"],
+    "category": "incentives"
+  }
+}

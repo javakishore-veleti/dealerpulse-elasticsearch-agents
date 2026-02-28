@@ -1,0 +1,21 @@
+{
+  "id": "dealerpulse-active-leads",
+  "type": "esql",
+  "description": "Get active customer leads with vehicle preferences, budget, and contact status. Used for sales briefings and lead prioritization.",
+  "configuration": {
+    "query": "FROM dealer-leads | WHERE status == \"new\" OR status == \"contacted\" | SORT created_date DESC | LIMIT ?limit",
+    "params": {
+      "limit": {
+        "type": "integer",
+        "description": "Max results to return"
+      }
+    }
+  },
+  "meta": {
+    "label": "Get Active Leads",
+    "icon": "bi-people",
+    "indexes": ["dealer-leads"],
+    "used_by": ["consumer", "sales", "orchestrator"],
+    "category": "leads"
+  }
+}

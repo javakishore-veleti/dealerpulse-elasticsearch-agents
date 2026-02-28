@@ -1,0 +1,25 @@
+{
+  "id": "dealerpulse-service-history",
+  "type": "esql",
+  "description": "Analyze service order history to find repeat repairs. Identifies vehicles with multiple visits that may be candidates for trade-up outreach.",
+  "configuration": {
+    "query": "FROM dealer-service-orders | STATS visit_count = COUNT(*), total_cost = SUM(repair_cost) BY vin | WHERE visit_count >= ?minVisits | SORT visit_count DESC | LIMIT ?limit",
+    "params": {
+      "minVisits": {
+        "type": "integer",
+        "description": "Minimum service visits to flag as repeat"
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max results to return"
+      }
+    }
+  },
+  "meta": {
+    "label": "Repeat Repair Analysis",
+    "icon": "bi-wrench-adjustable",
+    "indexes": ["dealer-service-orders"],
+    "used_by": ["service", "orchestrator"],
+    "category": "service"
+  }
+}

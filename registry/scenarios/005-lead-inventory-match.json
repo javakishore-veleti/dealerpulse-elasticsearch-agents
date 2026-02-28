@@ -1,0 +1,13 @@
+{
+  "id": 5,
+  "name": "Lead + Inventory Match",
+  "agent_id": "dealerpulse-orchestrator",
+  "input": "5 leads came in overnight wanting EV SUVs under $45K. Cross-reference with aging inventory — any Atlas EVs sitting? Match leads to stock and generate personalized outreach for each.",
+  "meta": {
+    "badge": "Multi-Agent",
+    "badge_class": "bg-success",
+    "description": "EV leads overnight match aging Atlas EVs",
+    "agents_involved": ["Consumer Agent", "Inventory Agent"],
+    "complexity": "Multi"
+  }
+}
