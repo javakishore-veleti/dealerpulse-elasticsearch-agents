@@ -3,7 +3,7 @@
   "type": "esql",
   "description": "Analyze service order history to find repeat repairs. Identifies vehicles with multiple visits that may be candidates for trade-up outreach.",
   "configuration": {
-    "query": "FROM dealer-service-orders | STATS visit_count = COUNT(*), total_cost = SUM(repair_cost) BY vin | WHERE visit_count >= ?minVisits | SORT visit_count DESC | LIMIT ?limit",
+    "query": "FROM dealer-service-orders | STATS visit_count = COUNT(*), total_cost = SUM(total_cost) BY vin | WHERE visit_count >= ?minVisits | SORT visit_count DESC | LIMIT ?limit",
     "params": {
       "minVisits": {
         "type": "integer",

@@ -3,7 +3,7 @@
   "type": "esql",
   "description": "Get active customer leads with vehicle preferences, budget, and contact status. Used for sales briefings and lead prioritization.",
   "configuration": {
-    "query": "FROM dealer-leads | WHERE status == \"new\" OR status == \"contacted\" | SORT created_date DESC | LIMIT ?limit",
+    "query": "FROM dealer-leads | WHERE status == \"new\" OR status == \"contacted\" | SORT submitted_at DESC | LIMIT ?limit",
     "params": {
       "limit": {
         "type": "integer",

@@ -61,6 +61,49 @@ import { ApiService } from '../../services/api.service';
         </div>
       </div>
     </div>
+    
+    <!-- Morning Briefing Panel -->
+    <div class="row g-3 mb-4">
+      <div class="col-12">
+        <div class="card stat-card p-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="mb-0 fw-bold"><i class="bi bi-sunrise text-warning"></i> Morning Briefing</h6>
+            <div class="d-flex gap-2 align-items-center">
+              <span class="badge" [ngClass]="kibanaConnected ? 'bg-success' : 'bg-secondary'">
+                {{ kibanaConnected ? 'Agent Builder Ready' : 'Agent Builder Offline' }}
+              </span>
+              <button class="btn btn-sm btn-primary" (click)="generateBriefing()" [disabled]="briefingLoading">
+                <i class="bi" [ngClass]="briefingLoading ? 'bi-hourglass-split' : 'bi-play-fill'"></i>
+                {{ briefingLoading ? 'Generating...' : 'Generate Briefing' }}
+              </button>
+            </div>
+          </div>
+          <div *ngIf="!briefingGenerated && !briefingLoading" class="text-center text-muted py-4">
+            <i class="bi bi-robot fs-1 d-block mb-2"></i>
+            Click "Generate Briefing" to get a full dealer morning report from all 4 agents.
+          </div>
+          <div *ngIf="briefingLoading && !briefingResponse" class="text-center py-4">
+            <div class="spinner-border text-primary mb-2"></div>
+            <p class="text-muted">Orchestrator coordinating all agents — this takes 30-60 seconds...</p>
+          </div>
+          <div *ngIf="briefingResponse" class="agent-response" style="max-height:500px; overflow-y:auto; white-space:pre-wrap;">{{ briefingResponse }}</div>
+          <div *ngIf="briefingGenerated && !briefingLoading" class="mt-3">
+            <div class="d-flex flex-wrap gap-2 mb-2">
+              <strong class="me-2">Follow-up:</strong>
+              <button class="btn btn-sm btn-outline-primary" (click)="askFollowUp('Which leads should I prioritize today and why?')">
+                <i class="bi bi-people"></i> Priority Leads
+              </button>
+              <button class="btn btn-sm btn-outline-warning" (click)="askFollowUp('Give me detailed pricing recommendations for all aging stock over 60 days.')">
+                <i class="bi bi-tag"></i> Pricing Recs
+              </button>
+              <button class="btn btn-sm btn-outline-info" (click)="askFollowUp('Any service customers that are trade-up candidates today?')">
+                <i class="bi bi-arrow-repeat"></i> Trade-Up Candidates
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Quick Actions + Health -->
     <div class="row g-3 mb-4">
@@ -106,6 +149,13 @@ export class DashboardComponent implements OnInit {
   quickResult = '';
   timeOfDay = '';
 
+  // ═══ Morning Briefing ═══
+  briefingLoading = false;
+  briefingResponse = '';
+  briefingConversationId = '';
+  briefingGenerated = false;
+  kibanaConnected = false;
+
   constructor(private api: ApiService) {
     const hour = new Date().getHours();
     if (hour < 12) this.timeOfDay = 'morning';
@@ -118,13 +168,51 @@ export class DashboardComponent implements OnInit {
       next: (res) => this.esConnected = res.status === 'ok',
       error: () => this.esConnected = false,
     });
+
+    this.api.getAgentBuilderStatus().subscribe({
+      next: (res) => this.kibanaConnected = res.connected,
+      error: () => this.kibanaConnected = false,
+    });
   }
 
   runQuick(scenarioId: number) {
     this.quickResult = 'Running agent...';
-    this.api.runScenario(scenarioId).subscribe({
-      next: (res) => this.quickResult = res.response,
+    this.api.runV2Scenario(scenarioId).subscribe({
+      next: (res) => this.quickResult = res.response || res.error || 'No response',
       error: (err) => this.quickResult = `Error: ${err.message}`,
     });
   }
+
+  generateBriefing() {
+    this.briefingLoading = true;
+    this.briefingResponse = '';
+    this.api.runV2Scenario(7).subscribe({
+      next: (res) => {
+        this.briefingLoading = false;
+        this.briefingGenerated = true;
+        this.briefingResponse = res.response || res.error || 'No response';
+        this.briefingConversationId = res.conversation_id || '';
+      },
+      error: (err) => {
+        this.briefingLoading = false;
+        this.briefingResponse = `Error: ${err.message}`;
+      }
+    });
+  }
+
+  askFollowUp(question: string) {
+    this.briefingLoading = true;
+    this.api.v2Chat('dealerpulse-orchestrator', question, this.briefingConversationId).subscribe({
+      next: (res) => {
+        this.briefingLoading = false;
+        this.briefingResponse = res.response || res.error || 'No response';
+      },
+      error: (err) => {
+        this.briefingLoading = false;
+        this.briefingResponse = `Error: ${err.message}`;
+      }
+    });
+  }
+
+
 }
