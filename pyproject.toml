@@ -1,0 +1,52 @@
+[project]
+name = "dealerpulse-elastic-agents"
+version = "0.1.0"
+description = "Multi-Agent Dealer Operations Intelligence powered by Elasticsearch"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.11"
+authors = [
+    {name = "Kishore Veleti"}
+]
+
+dependencies = [
+    # Core — use >= so uv can resolve compatible versions across langchain ecosystem
+    "elasticsearch>=8.17.0",
+    "langchain>=0.3.18",
+    "langchain-openai>=0.3.6",
+    "langchain-ollama>=0.3.2",
+    "langchain-elasticsearch>=0.3.0",
+    "langchain-core>=0.3.35",
+    # API & Web
+    "fastapi>=0.115.0",
+    "uvicorn>=0.34.0",
+    "pydantic>=2.10.0",
+    "pydantic-settings>=2.7.0",
+    # Utilities
+    "python-dotenv>=1.0.1",
+    "rich>=13.9.0",
+    "faker>=33.0.0",
+    "click>=8.1.0",
+    "httpx>=0.28.0",
+    "tenacity>=9.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.25.0",
+    "ruff>=0.9.0",
+]
+
+[project.scripts]
+# These let you run: dealerpulse instead of python -m dealerpulse.cli
+dealerpulse = "dealerpulse.cli:main"
+dealerpulse-api = "dealerpulse.api:main"
+dealerpulse-load = "scripts.load_data:main"
+
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["agents*", "config*", "tools*", "dealerpulse*", "scripts*", "data*"]

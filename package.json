@@ -1,0 +1,97 @@
+{
+  "name": "dealerpulse-elasticsearch-agents",
+  "version": "0.1.0",
+  "description": "Multi-Agent Dealer Operations Intelligence — command runner (not a Node.js project)",
+  "private": true,
+
+  "//": "═══════════════════════════════════════════════════════════════",
+  "// README": "This package.json is a COMMAND RUNNER, not a Node.js project. Run any command with: npm run <script-name>",
+  "//": "═══════════════════════════════════════════════════════════════",
+
+  "config": {
+    "venv_base": "~/runtime_data/python_venvs/hackathons/elastic_search_agents",
+    "venv_name": "dealerpulse-elastic-agents",
+    "python_version": "3.11"
+  },
+
+  "scripts": {
+
+    "// ── ENVIRONMENT SETUP ──": "",
+
+    "env:create": "conda create --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents python=3.11 -y && echo '✓ Conda env created. Run: npm run env:activate'",
+
+    "env:activate": "echo 'Run this directly in your terminal (npm cannot activate envs for you):\n\n  conda activate ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents\n'",
+
+    "env:deactivate": "echo 'Run this directly in your terminal:\n\n  conda deactivate\n'",
+
+    "env:remove": "conda remove --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents --all -y && echo '✓ Conda env removed'",
+
+    "env:info": "conda info --envs | grep dealerpulse || echo 'Environment not found. Run: npm run env:create'",
+
+
+    "// ── UV PACKAGE MANAGEMENT ──": "",
+
+    "uv:install": "conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents pip install uv && echo '✓ uv installed'",
+
+    "deps:install": "conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents uv pip install -e '.[dev]' && echo '✓ All dependencies installed via uv'",
+
+    "deps:sync": "conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents uv pip sync requirements.txt && echo '✓ Dependencies synced'",
+
+    "deps:add": "echo 'Usage: conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents uv pip install <package>'",
+
+    "deps:freeze": "conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents uv pip freeze > requirements-lock.txt && echo '✓ Locked to requirements-lock.txt'",
+
+
+    "// ── FIRST TIME SETUP (run these in order) ──": "",
+
+    "setup": "npm run env:create && npm run uv:install && npm run deps:install && echo '\n═══ SETUP COMPLETE ═══\nActivate with: conda activate ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents'",
+
+
+    "// ── RUN APPLICATION ──": "",
+
+    "app:cli": "conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents python -m dealerpulse.cli",
+
+    "app:api": "conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents uvicorn dealerpulse.api:app --host 0.0.0.0 --port 8000 --reload",
+
+    "app:scenario": "conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents python -m dealerpulse.cli --scenario",
+
+    "app:ask": "conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents python -m dealerpulse.cli --ask",
+
+
+    "// ── DATA ──": "",
+
+    "data:load": "conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents python scripts/load_data.py",
+
+    "data:verify": "conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents python scripts/verify_data.py",
+
+    "data:reset": "conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents python scripts/reset_data.py",
+
+    "data:generate": "conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents python data/synthetic/generate_all.py",
+
+
+    "// ── DEVOPS ──": "",
+
+    "docker:up": "cd DevOps/Local && ./docker-all-up.sh",
+    "docker:down": "cd DevOps/Local && ./docker-all-down.sh",
+    "docker:status": "cd DevOps/Local && ./docker-all-status.sh",
+    "docker:destroy": "cd DevOps/Local && ./docker-all-destroy.sh",
+
+    "docker:es": "cd DevOps/Local && ./docker-all-up.sh elasticsearch",
+    "docker:pg": "cd DevOps/Local && ./docker-all-up.sh postgres",
+    "docker:kafka": "cd DevOps/Local && ./docker-all-up.sh kafka",
+    "docker:vectors": "cd DevOps/Local && ./docker-all-up.sh qdrant weaviate milvus chromadb",
+    "docker:observe": "cd DevOps/Local && ./docker-all-up.sh observability",
+
+
+    "// ── TESTING ──": "",
+
+    "test": "conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents pytest tests/ -v",
+
+    "lint": "conda run --prefix ~/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents ruff check .",
+
+
+    "// ── HELP ──": "",
+
+    "help": "echo '\n═══ DealerPulse Command Runner ═══\n\nFIRST TIME:\n  npm run setup              Create env + install everything\n\nDAILY USE:\n  npm run docker:es          Start Elasticsearch + Kibana\n  npm run data:load          Load synthetic dealer data\n  npm run app:cli            Interactive agent CLI\n  npm run app:api            Start web UI at :8000\n  npm run app:scenario 3     Run scenario 3 (service diagnostic)\n\nENVIRONMENT:\n  npm run env:activate       Shows conda activate command\n  npm run env:info           Check if env exists\n  npm run deps:install       Reinstall dependencies via uv\n\nDEVOPS:\n  npm run docker:up          Start all services\n  npm run docker:status      Health check all services\n  npm run docker:down        Stop (keep data)\n  npm run docker:destroy     Nuclear reset\n'"
+  }
+}
