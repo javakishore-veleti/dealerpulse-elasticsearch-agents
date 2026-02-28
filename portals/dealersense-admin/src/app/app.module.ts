@@ -18,7 +18,7 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { CommonModule } from '@angular/common';
 import { DataConsoleComponent } from './pages/data-console/data-console.component';
 import { ArchitectureComponent } from './pages/architecture/architecture.component';
-
+import { CustomerPortalComponent } from './pages/customer-portal/customer-portal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +33,7 @@ import { ArchitectureComponent } from './pages/architecture/architecture.compone
     SettingsComponent,
     DataConsoleComponent,  // ← must be here,
     ArchitectureComponent,  // ← add here
+      CustomerPortalComponent,
   ],
   imports: [
     BrowserModule,

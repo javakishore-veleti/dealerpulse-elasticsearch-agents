@@ -9,6 +9,7 @@ import { DevopsComponent } from './pages/devops/devops.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { DataConsoleComponent } from './pages/data-console/data-console.component';
 import { ArchitectureComponent } from './pages/architecture/architecture.component';
+import { CustomerPortalComponent } from './pages/customer-portal/customer-portal.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'settings', component: SettingsComponent },
   { path: 'data-console', component: DataConsoleComponent },
   { path: 'architecture', component: ArchitectureComponent },
+  { path: 'customer-portal', component: CustomerPortalComponent },
   { path: '**', redirectTo: 'dashboard' },
 ];
 

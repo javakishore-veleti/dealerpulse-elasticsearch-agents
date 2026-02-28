@@ -52,6 +52,7 @@ export class SidebarComponent {
   ];
   agentNav = [
     { label: 'Agent Runner',   route: '/agent-runner',    icon: 'bi-robot' },
+      { label: 'Customer Portal',  route: '/customer-portal',  icon: 'bi-chat-dots' },
   ];
   systemNav = [
     { label: 'DevOps',         route: '/devops',          icon: 'bi-hdd-rack' },
