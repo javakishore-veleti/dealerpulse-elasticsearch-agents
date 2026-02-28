@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (Customer-Support-Text-Classify-FineTune-LLM)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (Customer-Support-Text-Classify-FineTune-LLM)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="$USER_HOME$/runtime_data/python_venvs/hackathons/elastic_search_agents/dealerpulse-elastic-agents" project-jdk-type="Python SDK" />
 </project>
