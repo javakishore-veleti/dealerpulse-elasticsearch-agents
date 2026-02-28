@@ -1,122 +1,196 @@
-import { Component, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CustomerApiService } from '../../services/customer-api.service';
 
-interface ChatMessage {
-  role: 'user' | 'assistant' | 'typing';
-  content: string;
+interface SearchResult {
+  query: string;
+  response: string;
+  timestamp: Date;
 }
 
 @Component({
   selector: 'app-chat',
   template: `
-    <!-- Mini hero -->
+    <!-- Hero with search bar integrated -->
     <div class="hero-sm">
-      <div class="container d-flex align-items-center justify-content-between">
-        <h2><i class="bi bi-search-heart"></i> Smart Search Assistant</h2>
-        <span class="badge bg-primary bg-opacity-25 text-light">Live Inventory · Instant Matching · Best Price</span>
+      <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+          <h2><i class="bi bi-search-heart"></i> Smart Search</h2>
+          <!-- Search bar in hero, right-aligned -->
+          <div class="hero-search">
+            <div class="input-group">
+              <input type="text" class="form-control" [(ngModel)]="userInput"
+                     placeholder="Search for your perfect vehicle..."
+                     (keyup.enter)="search()" [disabled]="loading" #searchInput>
+              <button class="btn btn-light" (click)="search()" [disabled]="!userInput.trim() || loading">
+                <i class="bi" [ngClass]="loading ? 'bi-hourglass-split' : 'bi-search'"></i>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="container">
-      <div class="chat-container">
-        <div class="chat-messages" #scrollContainer>
+    <div class="container py-4">
+      <div class="row">
 
-          <!-- Welcome card (disappears after first message) -->
-          <div *ngIf="showWelcome" class="welcome-card text-center">
-            <div class="welcome-icon">
+        <!-- LEFT: Suggestions + Search History -->
+        <div class="col-md-3">
+          <div class="suggestions-panel">
+            <h6 class="suggestions-title">Popular Searches</h6>
+            <button *ngFor="let s of suggestions" class="suggestion-item"
+                    (click)="quickSearch(s.text)">
+              <i class="bi" [ngClass]="s.icon"></i>
+              <span>{{ s.text }}</span>
+            </button>
+
+            <div *ngIf="searchHistory.length > 0" class="mt-4">
+              <h6 class="suggestions-title">Your Searches</h6>
+              <button *ngFor="let h of searchHistory" class="suggestion-item history-item"
+                      (click)="quickSearch(h)">
+                <i class="bi bi-clock-history"></i>
+                <span>{{ h }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Results area -->
+        <div class="col-md-9">
+          <!-- Welcome state (before any search) -->
+          <div *ngIf="!currentResult && !loading" class="welcome-search text-center py-5">
+            <div class="welcome-icon mb-3">
               <i class="bi bi-search-heart"></i>
             </div>
             <h4>What can I help you find?</h4>
-            <p class="text-muted">I search our entire inventory in real time — matching vehicles, stacking incentives, and calculating your best price in seconds.</p>
-            <div class="welcome-features">
+            <p class="text-muted mb-4">Search our entire inventory in real time — matching vehicles,<br>stacking incentives, and calculating your best price in seconds.</p>
+            <div class="welcome-features mb-4">
               <span><i class="bi bi-speedometer2"></i> 500+ vehicles</span>
               <span><i class="bi bi-tags"></i> Live incentives</span>
               <span><i class="bi bi-arrow-left-right"></i> Trade-in values</span>
             </div>
-            <hr class="my-4" style="border-color: #e0e7ff;">
-            <p class="text-muted small mb-3">Popular searches:</p>
-            <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <!-- Quick search chips for mobile -->
+            <div class="d-md-none d-flex flex-wrap gap-2 justify-content-center">
               <button *ngFor="let s of suggestions" class="suggestion-chip"
-                      (click)="sendMessage(s.text)">
+                      (click)="quickSearch(s.text)">
                 <i class="bi" [ngClass]="s.icon"></i> {{ s.text }}
               </button>
             </div>
           </div>
 
-          <!-- Chat messages (appear after first message) -->
-          <div *ngFor="let msg of messages"
-               class="chat-bubble" [ngClass]="msg.role">
-            {{ msg.content }}
+          <!-- Loading state -->
+          <div *ngIf="loading" class="search-loading">
+            <div class="loading-card">
+              <div class="loading-shimmer"></div>
+              <div class="loading-text">
+                <i class="bi bi-search"></i> Searching inventory and checking incentives...
+              </div>
+            </div>
           </div>
 
+          <!-- Search result -->
+          <div *ngIf="currentResult && !loading" class="search-result-card">
+            <div class="result-header">
+              <span class="result-query">
+                <i class="bi bi-search"></i> {{ currentResult.query }}
+              </span>
+              <button class="btn btn-sm btn-outline-secondary" (click)="clearResults()">
+                <i class="bi bi-x-lg"></i> Clear
+              </button>
+            </div>
+            <div class="result-body">
+              {{ currentResult.response }}
+            </div>
+            <div class="result-footer">
+              <span class="text-muted small">
+                <i class="bi bi-lightning-charge"></i> Results from live inventory search
+              </span>
+              <button class="btn btn-sm btn-primary rounded-pill" (click)="focusSearch()">
+                <i class="bi bi-search"></i> Search again
+              </button>
+            </div>
+          </div>
+
+          <!-- Previous results -->
+          <div *ngIf="previousResults.length > 0 && !loading" class="mt-4">
+            <h6 class="text-muted small">Previous searches</h6>
+            <div *ngFor="let prev of previousResults" class="previous-result-card">
+              <div class="d-flex justify-content-between align-items-start">
+                <span class="result-query small">
+                  <i class="bi bi-search"></i> {{ prev.query }}
+                </span>
+              </div>
+              <div class="result-body small">{{ prev.response }}</div>
+            </div>
+          </div>
         </div>
 
-        <!-- Input -->
-        <div class="chat-input-bar">
-          <input type="text" [(ngModel)]="userInput"
-                 placeholder="Search for your perfect vehicle..."
-                 (keyup.enter)="sendMessage()" [disabled]="loading">
-          <button (click)="sendMessage()" [disabled]="!userInput.trim() || loading">
-            <i class="bi bi-send-fill"></i>
-          </button>
-        </div>
       </div>
     </div>
   `,
 })
-export class ChatComponent implements AfterViewChecked {
-  @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+export class ChatComponent {
+  @ViewChild('searchInput') searchInput!: ElementRef;
 
   userInput = '';
   loading = false;
-  showWelcome = true;
-  messages: ChatMessage[] = [];
+  currentResult: SearchResult | null = null;
+  previousResults: SearchResult[] = [];
+  searchHistory: string[] = [];
 
   suggestions = [
-    { text: 'I need a mid-size SUV with AWD under $45K', icon: 'bi-truck-front' },
-    { text: 'What EV options do you have?', icon: 'bi-lightning-charge' },
-    { text: 'Show me trucks with towing packages', icon: 'bi-truck' },
-    { text: 'What incentives are available right now?', icon: 'bi-tag' },
-    { text: 'I have a 2021 Malibu to trade in', icon: 'bi-arrow-left-right' },
+    { text: 'Mid-size SUV with AWD under $45K', icon: 'bi-truck-front' },
+    { text: 'Electric vehicles available', icon: 'bi-lightning-charge' },
+    { text: 'Trucks with towing packages', icon: 'bi-truck' },
+    { text: 'Current incentives & deals', icon: 'bi-tag' },
+    { text: 'Trade-in value for 2021 Malibu', icon: 'bi-arrow-left-right' },
   ];
 
   constructor(private api: CustomerApiService) {}
 
-  ngAfterViewChecked() {
-    this.scrollToBottom();
+  quickSearch(text: string) {
+    this.userInput = text;
+    this.search();
   }
 
-  sendMessage(text?: string) {
-    const message = text || this.userInput.trim();
-    if (!message) return;
+  search() {
+    const query = this.userInput.trim();
+    if (!query) return;
 
-    this.showWelcome = false;
-    this.messages.push({ role: 'user', content: message });
-    this.userInput = '';
+    // Save to history (no duplicates, max 5)
+    this.searchHistory = [query, ...this.searchHistory.filter(h => h !== query)].slice(0, 5);
+
+    // Move current result to previous
+    if (this.currentResult) {
+      this.previousResults = [this.currentResult, ...this.previousResults].slice(0, 3);
+    }
+
     this.loading = true;
+    this.currentResult = null;
+    this.userInput = '';
 
-    this.messages.push({ role: 'typing', content: 'Searching inventory and checking incentives...' });
-
-    this.api.chat(message).subscribe({
+    this.api.chat(query).subscribe({
       next: (res) => {
-        this.messages = this.messages.filter(m => m.role !== 'typing');
-        this.messages.push({ role: 'assistant', content: res.response });
+        this.currentResult = { query, response: res.response, timestamp: new Date() };
         this.loading = false;
       },
-      error: (err) => {
-        this.messages = this.messages.filter(m => m.role !== 'typing');
-        this.messages.push({
-          role: 'assistant',
-          content: 'I\'m having trouble connecting right now. Please make sure the backend is running (npm run start:backend) and Elasticsearch has data loaded (npm run data:load).'
-        });
+      error: () => {
+        this.currentResult = {
+          query,
+          response: 'Unable to search right now. Please make sure the backend is running and Elasticsearch has data loaded.',
+          timestamp: new Date()
+        };
         this.loading = false;
       },
     });
   }
 
-  private scrollToBottom() {
-    try {
-      this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
-    } catch (err) {}
+  clearResults() {
+    this.currentResult = null;
+    this.previousResults = [];
+    this.focusSearch();
+  }
+
+  focusSearch() {
+    setTimeout(() => this.searchInput?.nativeElement?.focus(), 100);
   }
 }
