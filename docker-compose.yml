@@ -1,0 +1,107 @@
+version: "3.8"
+
+services:
+  # ─────────────────────────────────────────────
+  # Elasticsearch — Data & Search Layer
+  # ─────────────────────────────────────────────
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.0
+    container_name: dealerpulse-es
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - cluster.name=dealerpulse
+      - bootstrap.memory_lock=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -q '\"status\":\"green\"\\|\"status\":\"yellow\"'"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    networks:
+      - dealerpulse-net
+
+  # ─────────────────────────────────────────────
+  # Kibana — Visualization & Agent Builder UI
+  # ─────────────────────────────────────────────
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.17.0
+    container_name: dealerpulse-kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - xpack.security.enabled=false
+    ports:
+      - "5601:5601"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:5601/api/status | grep -q 'available'"]
+      interval: 15s
+      timeout: 10s
+      retries: 30
+    networks:
+      - dealerpulse-net
+
+  # ─────────────────────────────────────────────
+  # Ollama — Local LLM (optional, for offline mode)
+  # ─────────────────────────────────────────────
+  ollama:
+    image: ollama/ollama:latest
+    container_name: dealerpulse-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    profiles:
+      - ollama
+    deploy:
+      resources:
+        reservations:
+          memory: 4G
+    networks:
+      - dealerpulse-net
+
+  # ─────────────────────────────────────────────
+  # DealerPulse App — Agent Framework
+  # ─────────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dealerpulse-app
+    env_file:
+      - .env
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - OLLAMA_BASE_URL=http://ollama:11434
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    stdin_open: true
+    tty: true
+    networks:
+      - dealerpulse-net
+
+volumes:
+  es_data:
+    driver: local
+  ollama_data:
+    driver: local
+
+networks:
+  dealerpulse-net:
+    driver: bridge
