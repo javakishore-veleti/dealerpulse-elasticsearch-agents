@@ -10,7 +10,7 @@ import { ApiService } from '../../services/api.service';
         <div class="col-md-5">
           <label class="form-label small">Search Inventory</label>
           <input type="text" class="form-control" [(ngModel)]="query"
-                 placeholder="e.g. SUV AWD under 45000, Blazer EV, aging stock..."
+                 placeholder="e.g. SUV AWD under 45000, Atlas EV, aging stock..."
                  (keyup.enter)="search()">
         </div>
         <div class="col-md-2">
@@ -52,8 +52,8 @@ import { ApiService } from '../../services/api.service';
         <button class="btn btn-outline-secondary btn-sm" (click)="query='EV SUV inventory'; search()">
           EV SUV Inventory
         </button>
-        <button class="btn btn-outline-secondary btn-sm" (click)="query='Silverado 1500 in stock'; search()">
-          Silverado 1500
+        <button class="btn btn-outline-secondary btn-sm" (click)="query='Summit 1500 in stock'; search()">
+          Summit 1500
         </button>
       </div>
     </div>

@@ -1,6 +1,6 @@
 """
 DealerPulse — Synthetic Data Generator
-Generates realistic Chevrolet dealership operations data for all 6 indices.
+Generates realistic Prestige dealership operations data for all 6 indices.
 All data is synthetic — no real customer or dealer information.
 """
 import json
@@ -12,21 +12,21 @@ from datetime import datetime, timedelta
 # Shared reference data
 # ═══════════════════════════════════════════════
 
-CHEVY_VEHICLES = [
-    {"model": "Silverado 1500", "body_style": "Truck", "base_msrp": 38500, "trims": ["WT", "Custom", "LT", "RST", "LTZ", "High Country"]},
-    {"model": "Silverado 2500HD", "body_style": "Truck", "base_msrp": 46200, "trims": ["WT", "Custom", "LT", "LTZ", "High Country"]},
-    {"model": "Colorado", "body_style": "Truck", "base_msrp": 31900, "trims": ["WT", "LT", "Z71", "ZR2", "Trail Boss"]},
-    {"model": "Equinox", "body_style": "SUV", "base_msrp": 30500, "trims": ["LS", "LT", "RS", "Premier"]},
-    {"model": "Equinox EV", "body_style": "SUV", "base_msrp": 34900, "trims": ["1LT", "2LT", "2RS", "3RS"]},
-    {"model": "Blazer EV", "body_style": "SUV", "base_msrp": 42000, "trims": ["1LT", "2LT", "RS", "SS"]},
-    {"model": "Traverse", "body_style": "SUV", "base_msrp": 36900, "trims": ["LS", "LT", "RS", "Z71", "Premier", "High Country"]},
-    {"model": "Tahoe", "body_style": "SUV", "base_msrp": 58200, "trims": ["LS", "LT", "RST", "Z71", "Premier", "High Country"]},
-    {"model": "Suburban", "body_style": "SUV", "base_msrp": 61200, "trims": ["LS", "LT", "RST", "Z71", "Premier", "High Country"]},
-    {"model": "Trax", "body_style": "SUV", "base_msrp": 21900, "trims": ["LS", "1RS", "LT", "2RS", "ACTIV"]},
-    {"model": "Malibu", "body_style": "Sedan", "base_msrp": 26600, "trims": ["LS", "RS", "LT", "Premier"]},
-    {"model": "Camaro", "body_style": "Coupe", "base_msrp": 32900, "trims": ["1LS", "1LT", "LT1", "2SS", "ZL1"]},
-    {"model": "Corvette", "body_style": "Coupe", "base_msrp": 68300, "trims": ["1LT", "2LT", "3LT", "Z06", "E-Ray"]},
-    {"model": "Bolt EUV", "body_style": "SUV", "base_msrp": 28900, "trims": ["LT", "Premier", "Redline"]},
+PRESTIGE_VEHICLES = [
+    {"model": "Summit 1500", "body_style": "Truck", "base_msrp": 38500, "trims": ["WT", "Custom", "LT", "RST", "LTZ", "High Country"]},
+    {"model": "Summit 2500HD", "body_style": "Truck", "base_msrp": 46200, "trims": ["WT", "Custom", "LT", "LTZ", "High Country"]},
+    {"model": "Crestline", "body_style": "Truck", "base_msrp": 31900, "trims": ["WT", "LT", "Z71", "ZR2", "Trail Boss"]},
+    {"model": "Horizon", "body_style": "SUV", "base_msrp": 30500, "trims": ["LS", "LT", "RS", "Premier"]},
+    {"model": "Horizon EV", "body_style": "SUV", "base_msrp": 34900, "trims": ["1LT", "2LT", "2RS", "3RS"]},
+    {"model": "Atlas EV", "body_style": "SUV", "base_msrp": 42000, "trims": ["1LT", "2LT", "RS", "SS"]},
+    {"model": "Voyager", "body_style": "SUV", "base_msrp": 36900, "trims": ["LS", "LT", "RS", "Z71", "Premier", "High Country"]},
+    {"model": "Pinnacle", "body_style": "SUV", "base_msrp": 58200, "trims": ["LS", "LT", "RST", "Z71", "Premier", "High Country"]},
+    {"model": "Commander", "body_style": "SUV", "base_msrp": 61200, "trims": ["LS", "LT", "RST", "Z71", "Premier", "High Country"]},
+    {"model": "Scout", "body_style": "SUV", "base_msrp": 21900, "trims": ["LS", "1RS", "LT", "2RS", "ACTIV"]},
+    {"model": "Meridian", "body_style": "Sedan", "base_msrp": 26600, "trims": ["LS", "RS", "LT", "Premier"]},
+    {"model": "Phantom", "body_style": "Coupe", "base_msrp": 32900, "trims": ["1LS", "1LT", "LT1", "2SS", "ZL1"]},
+    {"model": "Spectra", "body_style": "Coupe", "base_msrp": 68300, "trims": ["1LT", "2LT", "3LT", "Z06", "E-Ray"]},
+    {"model": "Nova EV", "body_style": "SUV", "base_msrp": 28900, "trims": ["LT", "Premier", "Redline"]},
 ]
 
 COLORS = ["Summit White", "Black", "Silver Ice Metallic", "Red Hot", "Northsky Blue Metallic",
@@ -56,9 +56,9 @@ LAST_NAMES = ["Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davi
 TECHNICIANS = ["Ron Mitchell", "Carlos Reyes", "Dave Thompson", "Marcus Johnson",
                "Tony Vasquez", "Steve Chen", "Brandon Lee", "Mike O'Brien"]
 
-COMPETITOR_DEALERS = ["Hendrick Chevrolet", "City Chevrolet", "Parks Chevrolet",
-                      "Keith Hawthorne Chevrolet", "Classic Chevrolet", "Rick Hendrick Chevrolet",
-                      "Lake Norman Chevrolet", "Gastonia Chevrolet"]
+COMPETITOR_DEALERS = ["Hendrick Prestige", "City Prestige", "Parks Prestige",
+                      "Keith Hawthorne Prestige", "Classic Prestige", "Rick Hendrick Prestige",
+                      "Lake Norman Prestige", "Gastonia Prestige"]
 
 NC_ZIPS = ["28202", "28203", "28205", "28207", "28208", "28209", "28210", "28211",
            "28212", "28213", "28214", "28215", "28216", "28217", "28226", "28227",
@@ -92,7 +92,7 @@ def generate_inventory(count: int = 500) -> list:
     statuses = ["in_stock"] * 60 + ["in_transit"] * 20 + ["sold"] * 15 + ["service_hold"] * 5
 
     for i in range(count):
-        vehicle = random.choice(CHEVY_VEHICLES)
+        vehicle = random.choice(PRESTIGE_VEHICLES)
         trim = random.choice(vehicle["trims"])
         year = random.choice([2024, 2024, 2025, 2025, 2025, 2026])
         
@@ -122,7 +122,7 @@ def generate_inventory(count: int = 500) -> list:
             "vin": _make_vin(i + 1000),
             "stock_number": f"N{25000 + i}",
             "year": year,
-            "make": "Chevrolet",
+            "make": "Prestige",
             "model": vehicle["model"],
             "trim": trim,
             "body_style": vehicle["body_style"],
@@ -153,17 +153,17 @@ def generate_leads(count: int = 200) -> list:
                ["negotiation"] * 12 + ["closed_won"] * 10 + ["closed_lost"] * 8
 
     trade_in_vehicles = [
-        "2021 Chevrolet Malibu", "2020 Toyota Camry", "2019 Honda CR-V",
-        "2022 Ford F-150", "2020 Chevrolet Equinox", "2018 Nissan Altima",
-        "2021 Hyundai Tucson", "2019 Chevrolet Silverado 1500",
+        "2021 Prestige Meridian", "2020 Toyota Camry", "2019 Honda CR-V",
+        "2022 Ford F-150", "2020 Prestige Horizon", "2018 Nissan Altima",
+        "2021 Hyundai Tucson", "2019 Prestige Summit 1500",
         "2020 Toyota RAV4", "2022 Honda Civic", "2021 Jeep Grand Cherokee",
         "2019 GMC Sierra 1500", "2020 Subaru Outback", "2018 Ford Escape",
         "2021 Kia Telluride", None, None, None, None, None,  # 25% no trade
     ]
 
     preferred_vehicles = [
-        "Silverado 1500", "Equinox", "Equinox EV", "Blazer EV", "Traverse",
-        "Tahoe", "Colorado", "Trax", "Suburban", "Corvette", "Malibu",
+        "Summit 1500", "Horizon", "Horizon EV", "Atlas EV", "Voyager",
+        "Pinnacle", "Crestline", "Scout", "Commander", "Spectra", "Meridian",
         "mid-size SUV", "full-size truck", "EV SUV under 45K", "family SUV with AWD",
     ]
 
@@ -179,13 +179,13 @@ def generate_leads(count: int = 200) -> list:
         pref_vehicle = random.choice(preferred_vehicles)
         
         # Budget varies by vehicle preference
-        if "Corvette" in pref_vehicle or "Tahoe" in pref_vehicle or "Suburban" in pref_vehicle:
+        if "Spectra" in pref_vehicle or "Pinnacle" in pref_vehicle or "Commander" in pref_vehicle:
             budget_min = random.randint(50000, 65000)
             budget_max = random.randint(70000, 95000)
         elif "EV" in pref_vehicle or "Blazer" in pref_vehicle:
             budget_min = random.randint(30000, 38000)
             budget_max = random.randint(40000, 55000)
-        elif "Trax" in pref_vehicle:
+        elif "Scout" in pref_vehicle:
             budget_min = random.randint(18000, 22000)
             budget_max = random.randint(24000, 30000)
         else:
@@ -283,7 +283,7 @@ def generate_service_orders(count: int = 300) -> list:
     random.shuffle(vin_pool)
 
     for i in range(count):
-        vehicle = random.choice(CHEVY_VEHICLES)
+        vehicle = random.choice(PRESTIGE_VEHICLES)
         year = random.choice([2019, 2020, 2021, 2022, 2023, 2024])
         status = random.choice(statuses)
         repair_type = random.choice(repair_types)
@@ -311,7 +311,7 @@ def generate_service_orders(count: int = 300) -> list:
             "ro_number": f"RO-{60000 + i}",
             "vin": vin_pool[i % len(vin_pool)],
             "year": year,
-            "make": "Chevrolet",
+            "make": "Prestige",
             "model": vehicle["model"],
             "customer_name": f"{random.choice(FIRST_NAMES)} {random.choice(LAST_NAMES)}",
             "customer_phone": f"704-{random.randint(200,999)}-{random.randint(1000,9999)}",
@@ -343,10 +343,10 @@ def generate_incentives(count: int = 50) -> list:
     records = []
     
     program_templates = [
-        {"name": "Chevy Loyalty Cash", "type": "rebate", "amount_range": (1000, 3500), "stackable": True},
+        {"name": "Prestige Loyalty Cash", "type": "rebate", "amount_range": (1000, 3500), "stackable": True},
         {"name": "Conquest Bonus Cash", "type": "rebate", "amount_range": (1500, 3000), "stackable": True},
         {"name": "EV Tax Credit", "type": "rebate", "amount_range": (3750, 7500), "stackable": True},
-        {"name": "Chevrolet Consumer Cash", "type": "rebate", "amount_range": (500, 4000), "stackable": True},
+        {"name": "Prestige Consumer Cash", "type": "rebate", "amount_range": (500, 4000), "stackable": True},
         {"name": "Dealer Cash Allowance", "type": "rebate", "amount_range": (1000, 3000), "stackable": False},
         {"name": "0% APR Financing", "type": "financing", "amount_range": (0, 0), "stackable": False},
         {"name": "1.9% APR Financing", "type": "financing", "amount_range": (0, 0), "stackable": True},
@@ -359,7 +359,7 @@ def generate_incentives(count: int = 50) -> list:
         {"name": "Year-End Clearance", "type": "rebate", "amount_range": (3000, 6000), "stackable": False},
     ]
 
-    models_list = [v["model"] for v in CHEVY_VEHICLES]
+    models_list = [v["model"] for v in PRESTIGE_VEHICLES]
 
     for i in range(count):
         template = random.choice(program_templates)
@@ -372,11 +372,11 @@ def generate_incentives(count: int = 50) -> list:
         if "EV" in template["name"]:
             eligible = [m for m in models_list if "EV" in m or "Bolt" in m]
             if not eligible:
-                eligible = ["Equinox EV", "Blazer EV", "Bolt EUV"]
+                eligible = ["Horizon EV", "Atlas EV", "Nova EV"]
         
         # Truck programs only for trucks
         if "Truck" in template["name"]:
-            eligible = ["Silverado 1500", "Silverado 2500HD", "Colorado"]
+            eligible = ["Summit 1500", "Summit 2500HD", "Crestline"]
 
         amount = random.randint(*template["amount_range"]) if template["amount_range"][1] > 0 else 0
         
@@ -409,7 +409,7 @@ def generate_pricing_alerts(count: int = 100) -> list:
     records = []
 
     for i in range(count):
-        vehicle = random.choice(CHEVY_VEHICLES)
+        vehicle = random.choice(PRESTIGE_VEHICLES)
         trim = random.choice(vehicle["trims"])
         year = random.choice([2025, 2026])
         
@@ -448,7 +448,7 @@ TSB_TEMPLATES = [
         "fix": "Perform intake valve cleaning per GM procedure. Replace PCV valve if damaged. Reprogram ECM with latest calibration.",
         "parts": ["Intake Valve Cleaning Kit", "PCV Valve", "Gasket Set"],
         "hours": 2.5,
-        "models": ["Silverado 1500", "Colorado", "Traverse"],
+        "models": ["Summit 1500", "Crestline", "Voyager"],
     },
     {
         "title": "Transmission Torque Converter Shudder",
@@ -457,7 +457,7 @@ TSB_TEMPLATES = [
         "fix": "Drain and refill transmission fluid with updated Mobil 1 Synthetic LV ATF. Perform transmission adaptive learn procedure.",
         "parts": ["Mobil 1 Synthetic LV ATF (12 qt)", "Transmission Filter"],
         "hours": 3.0,
-        "models": ["Silverado 1500", "Tahoe", "Suburban", "Colorado"],
+        "models": ["Summit 1500", "Pinnacle", "Commander", "Crestline"],
     },
     {
         "title": "Infotainment System Black Screen / Reboot Loop",
@@ -466,7 +466,7 @@ TSB_TEMPLATES = [
         "fix": "Update infotainment software to latest version. If issue persists, replace IPC (Infotainment Projection Control) module.",
         "parts": ["IPC Module (if needed)", "Software Update USB"],
         "hours": 1.5,
-        "models": ["Equinox", "Blazer EV", "Traverse", "Equinox EV", "Trax"],
+        "models": ["Horizon", "Atlas EV", "Voyager", "Horizon EV", "Scout"],
     },
     {
         "title": "EVAP System Small Leak — Purge Valve",
@@ -475,7 +475,7 @@ TSB_TEMPLATES = [
         "fix": "Replace EVAP canister purge solenoid valve. Inspect EVAP lines for cracks or damage.",
         "parts": ["EVAP Canister Purge Valve", "EVAP Line Clamps"],
         "hours": 1.2,
-        "models": ["Equinox", "Malibu", "Trax", "Colorado"],
+        "models": ["Horizon", "Meridian", "Scout", "Crestline"],
     },
     {
         "title": "Battery Parasitic Drain — Body Control Module Update",
@@ -484,7 +484,7 @@ TSB_TEMPLATES = [
         "fix": "Reprogram Body Control Module (BCM) with latest calibration file. Check for aftermarket accessories drawing excessive current.",
         "parts": ["BCM Software Update"],
         "hours": 0.8,
-        "models": ["Silverado 1500", "Equinox", "Traverse", "Tahoe"],
+        "models": ["Summit 1500", "Horizon", "Voyager", "Pinnacle"],
     },
     {
         "title": "Front Strut Mount Bearing Noise",
@@ -493,7 +493,7 @@ TSB_TEMPLATES = [
         "fix": "Replace front strut mount bearing assemblies. Perform wheel alignment after replacement.",
         "parts": ["Front Strut Mount Assembly LH", "Front Strut Mount Assembly RH", "Alignment"],
         "hours": 3.5,
-        "models": ["Equinox", "Traverse", "Blazer EV", "Trax"],
+        "models": ["Horizon", "Voyager", "Atlas EV", "Scout"],
     },
     {
         "title": "Throttle Position Sensor Correlation Error",
@@ -502,7 +502,7 @@ TSB_TEMPLATES = [
         "fix": "Replace electronic throttle body assembly. Perform throttle position learn procedure with scan tool.",
         "parts": ["Electronic Throttle Body Assembly", "Throttle Body Gasket"],
         "hours": 1.8,
-        "models": ["Silverado 1500", "Tahoe", "Suburban", "Silverado 2500HD"],
+        "models": ["Summit 1500", "Pinnacle", "Commander", "Summit 2500HD"],
     },
     {
         "title": "EV High Voltage Battery Coolant Leak",
@@ -511,7 +511,7 @@ TSB_TEMPLATES = [
         "fix": "Inspect HV battery coolant lines and connections. Replace coolant line fitting if leaking. Top off coolant and bleed system.",
         "parts": ["HV Battery Coolant Line Fitting", "EV Coolant (2 gal)", "O-Ring Kit"],
         "hours": 2.0,
-        "models": ["Equinox EV", "Blazer EV", "Bolt EUV"],
+        "models": ["Horizon EV", "Atlas EV", "Nova EV"],
     },
     {
         "title": "Rear Camera Intermittent Display Failure",
@@ -520,7 +520,7 @@ TSB_TEMPLATES = [
         "fix": "Check rear camera harness connector for corrosion. Clean and reseat connector. Replace camera module if connector is clean.",
         "parts": ["Rear Camera Module (if needed)", "Connector Cleaning Kit"],
         "hours": 1.0,
-        "models": ["Silverado 1500", "Colorado", "Equinox", "Traverse"],
+        "models": ["Summit 1500", "Crestline", "Horizon", "Voyager"],
     },
     {
         "title": "ABS Module Communication Failure",
@@ -529,7 +529,7 @@ TSB_TEMPLATES = [
         "fix": "Inspect ABS module connector for water intrusion. Clean connector pins and apply dielectric grease. Replace ABS module if internal failure confirmed.",
         "parts": ["ABS Module (if needed)", "Dielectric Grease", "Connector Pin Kit"],
         "hours": 2.2,
-        "models": ["Silverado 1500", "Tahoe", "Suburban", "Silverado 2500HD"],
+        "models": ["Summit 1500", "Pinnacle", "Commander", "Summit 2500HD"],
     },
 ]
 

@@ -21,7 +21,7 @@ import { CustomerApiService } from '../../services/customer-api.service';
               <div class="mb-3">
                 <label class="form-label small fw-bold">Year, Make, Model, Trim</label>
                 <input type="text" class="form-control" [(ngModel)]="vehicle"
-                       placeholder="e.g. 2021 Chevrolet Malibu LT">
+                       placeholder="e.g. 2021 Chevrolet Meridian LT">
               </div>
 
               <div class="mb-3">

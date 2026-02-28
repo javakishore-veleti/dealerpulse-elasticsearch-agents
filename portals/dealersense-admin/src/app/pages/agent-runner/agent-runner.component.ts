@@ -70,7 +70,7 @@ export class AgentRunnerComponent {
     { id: 2, name: 'Morning Sales Brief',        description: 'BDC agent prep with full customer intelligence',          agent: 'Sales',         agentColor: 'warning' },
     { id: 3, name: 'Diagnose Before Hood Opens', description: 'DTC P0300 + P0301: rough idle cold start',               agent: 'Service',       agentColor: 'danger' },
     { id: 4, name: 'Aging Stock Alert',           description: '$385K exposure on 60+ day inventory',                    agent: 'Inventory',     agentColor: 'info' },
-    { id: 5, name: 'Lead + Inventory Match',      description: 'EV leads overnight match aging Blazer EVs',             agent: 'Multi-Agent',   agentColor: 'primary' },
+    { id: 5, name: 'Lead + Inventory Match',      description: 'EV leads overnight match aging Atlas EVs',             agent: 'Multi-Agent',   agentColor: 'primary' },
     { id: 6, name: 'Service → Sales Opportunity', description: 'Repeat repair triggers trade-up conversation',          agent: 'Multi-Agent',   agentColor: 'primary' },
     { id: 7, name: 'Full Morning Briefing',        description: 'All 4 agents coordinate for dealer principal',          agent: 'All Agents',    agentColor: 'dark' },
   ];

@@ -303,7 +303,7 @@ export class DataConsoleComponent implements OnInit {
     { id: 2, name: 'Morning Sales Brief', badge: 'Sales', badgeClass: 'bg-primary', description: 'BDC agent prep with full intelligence' },
     { id: 3, name: 'Diagnose Before Hood Opens', badge: 'Service', badgeClass: 'bg-info', description: 'DTC P0300+P0301: rough idle cold start' },
     { id: 4, name: 'Aging Stock Alert', badge: 'Inventory', badgeClass: 'bg-warning text-dark', description: '$385K exposure on 60+ day inventory' },
-    { id: 5, name: 'Lead + Inventory Match', badge: 'Multi-Agent', badgeClass: 'bg-success', description: 'EV leads overnight match aging Blazer EVs' },
+    { id: 5, name: 'Lead + Inventory Match', badge: 'Multi-Agent', badgeClass: 'bg-success', description: 'EV leads overnight match aging Atlas EVs' },
     { id: 6, name: 'Service → Sales Opportunity', badge: 'Multi-Agent', badgeClass: 'bg-success', description: 'Repeat repair triggers trade-up' },
     { id: 7, name: 'Full Morning Briefing', badge: 'All Agents', badgeClass: 'bg-dark', description: 'All 4 agents coordinate for dealer principal' },
   ];

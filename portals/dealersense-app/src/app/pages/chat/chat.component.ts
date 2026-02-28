@@ -142,7 +142,7 @@ export class ChatComponent {
     { text: 'Electric vehicles available', icon: 'bi-lightning-charge' },
     { text: 'Trucks with towing packages', icon: 'bi-truck' },
     { text: 'Current incentives & deals', icon: 'bi-tag' },
-    { text: 'Trade-in value for 2021 Malibu', icon: 'bi-arrow-left-right' },
+    { text: 'Trade-in value for 2021 Meridian', icon: 'bi-arrow-left-right' },
   ];
 
   constructor(private api: CustomerApiService) {}

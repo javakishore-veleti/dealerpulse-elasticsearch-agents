@@ -111,7 +111,7 @@ async def home():
                 <button class="scenario-btn" onclick="runScenario(5)">
                     <span class="num">#5</span>
                     <div class="name">Lead + Inventory Match</div>
-                    <div class="desc">EV leads overnight match aging Blazer EVs</div>
+                    <div class="desc">EV leads overnight match aging Atlas EVs</div>
                     <span class="agent agent-orchestrator">MULTI-AGENT</span>
                 </button>
                 <button class="scenario-btn" onclick="runScenario(6)">

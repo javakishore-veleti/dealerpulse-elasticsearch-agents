@@ -15,7 +15,7 @@ SCENARIOS = {
             "Preferred Vehicle: Mid-size SUV with AWD\n"
             "Budget: $38,000 - $45,000\n"
             "Key Features: AWD, heated seats, safety package, Apple CarPlay\n"
-            "Trade-in: 2021 Chevrolet Malibu LT (estimated $18,000)\n"
+            "Trade-in: 2021 Chevrolet Meridian LT (estimated $18,000)\n"
             "Channel: Website\n\n"
             "Generate an instant personalized response for Sarah. Search our current inventory "
             "for matching vehicles, check applicable incentives, and draft a response "
@@ -29,12 +29,12 @@ SCENARIOS = {
         "prompt": (
             "It's 8:00 AM. I'm a BDC agent and I need to call Sarah Martinez back about her "
             "lead from last night. She wants a mid-size SUV with AWD, budget around $42K, "
-            "and has a 2021 Malibu to trade in.\n\n"
+            "and has a 2021 Meridian to trade in.\n\n"
             "Prepare my complete sales brief:\n"
             "1. Search for her lead details\n"
             "2. Find the best inventory matches\n"
             "3. Check what incentives I can offer\n"
-            "4. Check if her trade-in Malibu has any open recalls or TSBs (good conversation starter)\n"
+            "4. Check if her trade-in Meridian has any open recalls or TSBs (good conversation starter)\n"
             "5. Give me a suggested opening for the call"
         ),
     },
@@ -44,7 +44,7 @@ SCENARIOS = {
         "description": "2022 Silverado arrives with DTC P0300 + P0301, complaint: rough idle at cold start.",
         "prompt": (
             "Vehicle just arrived in the service drive:\n\n"
-            "Vehicle: 2022 Chevrolet Silverado 1500 LT\n"
+            "Vehicle: 2022 Chevrolet Summit 1500 LT\n"
             "VIN: 1G1YY22G045N25032\n"
             "Mileage: 47,250\n"
             "DTC Codes: P0300, P0301\n"
@@ -74,10 +74,10 @@ SCENARIOS = {
     5: {
         "name": "Lead + Inventory Match (Cross-Agent)",
         "agent": "orchestrator",
-        "description": "5 EV leads overnight while 3 Blazer EVs sit aging. Connect the dots.",
+        "description": "5 EV leads overnight while 3 Atlas EVs sit aging. Connect the dots.",
         "prompt": (
             "We got a burst of overnight leads — several customers asking about EV SUVs "
-            "under $45K. At the same time, I know we have some Blazer EVs and Equinox EVs "
+            "under $45K. At the same time, I know we have some Atlas EVs and Horizon EVs "
             "that have been sitting on the lot.\n\n"
             "Connect the dots for me:\n"
             "1. How many EV-interested leads do we have right now?\n"

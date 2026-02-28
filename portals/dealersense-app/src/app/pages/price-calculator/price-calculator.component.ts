@@ -33,7 +33,7 @@ import { CustomerApiService } from '../../services/customer-api.service';
               <div class="mb-3">
                 <label class="form-label small fw-bold">Your Current Vehicle</label>
                 <input type="text" class="form-control" [(ngModel)]="tradeIn"
-                       placeholder="e.g. 2021 Chevrolet Malibu LT">
+                       placeholder="e.g. 2021 Chevrolet Meridian LT">
               </div>
 
               <div class="mb-3">
@@ -82,19 +82,19 @@ export class PriceCalculatorComponent {
   loading = false;
 
   models = [
-    '2025 Chevrolet Silverado 1500',
-    '2025 Chevrolet Equinox',
-    '2025 Chevrolet Equinox EV',
-    '2025 Chevrolet Blazer EV',
-    '2025 Chevrolet Tahoe',
-    '2025 Chevrolet Suburban',
-    '2025 Chevrolet Traverse',
-    '2025 Chevrolet Trax',
-    '2025 Chevrolet Malibu',
-    '2025 Chevrolet Camaro',
-    '2025 Chevrolet Colorado',
-    '2025 Chevrolet Bolt EUV',
-    '2025 Chevrolet Corvette',
+    '2025 Chevrolet Summit 1500',
+    '2025 Chevrolet Horizon',
+    '2025 Chevrolet Horizon EV',
+    '2025 Chevrolet Atlas EV',
+    '2025 Chevrolet Pinnacle',
+    '2025 Chevrolet Commander',
+    '2025 Chevrolet Voyager',
+    '2025 Chevrolet Scout',
+    '2025 Chevrolet Meridian',
+    '2025 Chevrolet Phantom',
+    '2025 Chevrolet Crestline',
+    '2025 Chevrolet Nova EV',
+    '2025 Chevrolet Spectra',
   ];
 
   constructor(private api: CustomerApiService) {}

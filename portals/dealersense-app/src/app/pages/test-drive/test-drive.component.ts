@@ -30,7 +30,7 @@ import { CustomerApiService } from '../../services/customer-api.service';
               <div class="mb-3">
                 <label class="form-label small fw-bold">Or describe what you want</label>
                 <input type="text" class="form-control" [(ngModel)]="customVehicle"
-                       placeholder="e.g. Any red Blazer EV, a Silverado with the Z71 package...">
+                       placeholder="e.g. Any red Atlas EV, a Silverado with the Z71 package...">
               </div>
 
               <hr>
@@ -134,15 +134,15 @@ export class TestDriveComponent {
   loading = false;
 
   vehicles = [
-    '2025 Chevrolet Equinox EV',
-    '2025 Chevrolet Blazer EV',
-    '2025 Chevrolet Silverado 1500',
-    '2025 Chevrolet Tahoe',
-    '2025 Chevrolet Traverse',
-    '2025 Chevrolet Equinox',
-    '2025 Chevrolet Trax',
-    '2025 Chevrolet Colorado',
-    '2025 Chevrolet Corvette',
+    '2025 Chevrolet Horizon EV',
+    '2025 Chevrolet Atlas EV',
+    '2025 Chevrolet Summit 1500',
+    '2025 Chevrolet Pinnacle',
+    '2025 Chevrolet Voyager',
+    '2025 Chevrolet Horizon',
+    '2025 Chevrolet Scout',
+    '2025 Chevrolet Crestline',
+    '2025 Chevrolet Spectra',
   ];
 
   constructor(private api: CustomerApiService) {}

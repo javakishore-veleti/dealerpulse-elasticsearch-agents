@@ -171,7 +171,7 @@ def check_incentives_for_vehicle(model: str) -> str:
     Checks stacking rules and calculates maximum combined incentive.
     
     Args:
-        model: Vehicle model name (e.g., "Silverado", "Equinox EV", "Blazer EV")
+        model: Vehicle model name (e.g., "Silverado", "Horizon EV", "Atlas EV")
     
     Returns:
         Active incentives with amounts and stacking possibilities.
